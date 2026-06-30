@@ -1,0 +1,57 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Publish on every push to the default branch.
+  push:
+    branches: [main]
+  # Allow manual runs from the Actions tab.
+  workflow_dispatch:
+
+# Permissions required by the official Pages deploy action.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let in-flight deploys finish; never cancel a publish mid-run.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assemble static site
+        run: |
+          set -euo pipefail
+          mkdir -p _site/assets
+          # Ekron.dc.html is the editable source of truth; publish it as index.html.
+          cp Ekron.dc.html _site/index.html
+          cp support.js _site/support.js
+          cp -R assets/. _site/assets/
+          # Tell GitHub Pages not to run Jekyll over the output.
+          touch _site/.nojekyll
+          # uploads/ (raw source originals, ~22 MB) is intentionally NOT published.
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

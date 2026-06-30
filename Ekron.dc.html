@@ -70,7 +70,7 @@
 
   <!-- HERO -->
   <section id="top" data-screen-label="Hero" style="position:relative; background:#16242E; overflow:hidden;">
-    <video data-bg-video="eager" muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.85;">
+    <video data-bg-video="eager" muted playsinline preload="metadata" poster="assets/hero-poster.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.85;">
       <source src="assets/hero-bg.webm" type="video/webm">
       <source src="assets/hero-bg.mp4" type="video/mp4">
     </video>
@@ -367,7 +367,7 @@
 
   <!-- PROOF BAND -->
   <section data-screen-label="Proof" style="position:relative; background:#16242E; overflow:hidden;">
-    <video data-bg-video="lazy" muted loop playsinline preload="none" poster="assets/proof-poster.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+    <video data-bg-video="lazy" muted playsinline preload="none" poster="assets/proof-poster.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
       <source src="assets/proof-bg.webm" type="video/webm">
       <source src="assets/proof-bg.mp4" type="video/mp4">
     </video>
@@ -746,10 +746,14 @@ class Component extends DCLogic {
   // when the section nears the viewport, and pauses when it leaves.
   function lazyObserve(v) {
     if (v.__lazyIO || !('IntersectionObserver' in window)) return;
+    v.addEventListener('ended', function () { v.__done = true; });   // play once: never replay
     v.__lazyIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting && !reduced()) { v.muted = true; v.play().catch(function () {}); }
-        else if (!v.paused) v.pause();
+        if (e.isIntersecting) {
+          if (!reduced() && !v.__done) { v.muted = true; v.play().catch(function () {}); }
+        } else if (!v.paused) {
+          v.pause();                                       // pause off-screen; resumes on return until done
+        }
       });
     }, { rootMargin: '200px 0px' });
     v.__lazyIO.observe(v);
@@ -764,11 +768,13 @@ class Component extends DCLogic {
     var vids = document.querySelectorAll('video[data-bg-video]');
     for (var i = 0; i < vids.length; i++) {
       var v = vids[i];
-      v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true;
-      if (v.getAttribute('data-bg-video') === 'lazy') {
-        lazyObserve(v);                                   // playback driven by the observer
-      } else if (!reduced() && v.paused) {
-        v.play().catch(function () {});                   // eager: keep playing; blocked → poster
+      var lazy = v.getAttribute('data-bg-video') === 'lazy';
+      v.muted = true; v.defaultMuted = true; v.playsInline = true;
+      v.loop = false;                                     // both videos play once, no loop
+      if (lazy) {
+        lazyObserve(v);                                   // play-once, viewport-triggered
+      } else if (!reduced() && v.paused && !v.ended) {
+        v.play().catch(function () {});                   // eager: play once; don't restart after it ends
       }
     }
   }

@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#F4F5F2; }
+  body{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  ::selection{ background:#1A8F57; color:#fff; }
+  @keyframes ek-blink{ 0%,49%{opacity:1} 50%,100%{opacity:0} }
+  @keyframes ek-dot{ 0%,80%,100%{opacity:.25;transform:translateY(0)} 40%{opacity:1;transform:translateY(-3px)} }
+  @keyframes ek-flash{ 0%{ background:rgba(26,143,87,0); } 25%{ background:rgba(26,143,87,.22); } 100%{ background:rgba(26,143,87,0); } }
+  a{ color:inherit; }
+  button{ font-family:inherit; cursor:pointer; }
+  input{ font-family:inherit; }
+  :focus-visible{ outline:2px solid #1A8F57; outline-offset:3px; border-radius:3px; }
+  @media (prefers-reduced-motion: reduce){
+    [data-reveal]{ opacity:1 !important; transform:none !important; }
+    *{ animation-duration:0.001ms !important; }
+  }
+</style>
+</helmet>
+
+<div style="font-family:'IBM Plex Sans',system-ui,sans-serif; color:#16242E; background:#F4F5F2; min-height:100vh; overflow-x:hidden;">
+
+  <!-- NAV -->
+  <header style="position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(10px); -webkit-backdrop-filter:saturate(140%) blur(10px); background:rgba(244,245,242,0.82); border-bottom:1px solid #DCE1DC;">
+    <nav style="max-width:1200px; margin:0 auto; padding:16px clamp(20px,5vw,40px); display:flex; align-items:center; justify-content:space-between; gap:16px;">
+      <a href="#top" style="display:flex; align-items:center; gap:11px; text-decoration:none;">
+        <span style="width:13px; height:13px; background:#1A8F57; transform:rotate(45deg); display:inline-block; border-radius:2px;"></span>
+        <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:21px; letter-spacing:-0.02em; color:#16242E;">Ekron</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:22px;">
+        <a href="#try" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.06em; color:#5C6B72; text-decoration:none;">Try the Asistent</a>
+        <a href="#cta" style="display:inline-flex; align-items:center; background:#1A8F57; color:#fff; font-weight:600; font-size:14.5px; padding:11px 20px; border-radius:6px; text-decoration:none; box-shadow:0 1px 0 rgba(0,0,0,0.04);">Book a demo</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="top" data-screen-label="Hero" style="position:relative; background:#16242E; overflow:hidden;">
+    <video autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.85;">
+      <source src="assets/hero-bg.mp4" type="video/mp4">
+    </video>
+    <div style="position:absolute; inset:0; background:linear-gradient(100deg, rgba(16,29,37,0.95) 0%, rgba(16,29,37,0.82) 38%, rgba(16,29,37,0.50) 72%, rgba(16,29,37,0.62) 100%);"></div>
+    <div style="position:relative; max-width:1200px; margin:0 auto; padding:clamp(56px,10vw,104px) clamp(20px,5vw,40px) clamp(64px,9vw,108px); display:flex; flex-wrap:wrap; gap:clamp(32px,5vw,64px); align-items:center;">
+      <div style="flex:1 1 440px; min-width:300px;">
+        <div style="display:inline-flex; align-items:center; gap:9px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#9DB0A6; margin-bottom:26px;">
+          <span style="width:7px;height:7px;background:#1A8F57;transform:rotate(45deg);display:inline-block;"></span>
+          AI-native ERP · FMCG distribution
+        </div>
+        <h1 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(38px,6vw,68px); line-height:1.02; letter-spacing:-0.025em; color:#F4F5F2; margin:0 0 22px;">Run your distribution business.<br><span style="color:#5FCF94;">Just ask it.</span></h1>
+        <p style="font-size:clamp(16px,1.7vw,19px); line-height:1.55; color:#C3CEC8; max-width:30ch; margin:0 0 34px;">Orders, stock, pricing, commissions, returns — the whole operation in one system you talk to in plain language. Built for wholesalers selling to shops, supermarkets and HoReCa.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+          <a href="#cta" style="display:inline-flex; align-items:center; background:#1A8F57; color:#fff; font-weight:600; font-size:16px; padding:15px 26px; border-radius:7px; text-decoration:none; box-shadow:0 6px 22px rgba(26,143,87,0.35);">Book a demo</a>
+          <a href="#try" style="display:inline-flex; align-items:center; gap:8px; color:#E7EDE9; font-weight:600; font-size:16px; padding:15px 18px; border-radius:7px; text-decoration:none; border:1px solid rgba(231,237,233,0.28);">See it run <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+
+      <!-- LIVE ASISTENT CARD -->
+      <div style="flex:1 1 420px; min-width:300px;">
+        <div style="background:#FFFFFF; border:1px solid #DCE1DC; border-radius:14px; box-shadow:0 30px 70px rgba(8,18,24,0.45); overflow:hidden;">
+          <div style="display:flex; align-items:center; gap:9px; padding:13px 18px; border-bottom:1px solid #DCE1DC; background:#F4F5F2;">
+            <span style="width:9px;height:9px;background:#1A8F57;border-radius:50%;display:inline-block;box-shadow:0 0 0 3px rgba(26,143,87,0.18);"></span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#16242E; font-weight:600;">Asistent</span>
+            <span style="margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#9AA8A0;">LIVE OPERATIONS</span>
+          </div>
+          <div style="padding:18px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#9AA8A0; text-transform:uppercase; margin-bottom:7px;">You</div>
+            <div style="font-size:15px; line-height:1.5; color:#16242E; min-height:22px; margin-bottom:18px;">{{ hero.typed }}<sc-if value="{{ hero.caret }}" hint-placeholder-val="{{ true }}"><span style="display:inline-block; width:8px; height:17px; background:#1A8F57; margin-left:2px; vertical-align:-3px; animation:ek-blink 1s step-end infinite;"></span></sc-if></div>
+            <sc-if value="{{ hero.thinking }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; align-items:center; gap:5px; padding:4px 0 8px;">
+                <span style="width:7px;height:7px;border-radius:50%;background:#1A8F57;animation:ek-dot 1.1s infinite;"></span>
+                <span style="width:7px;height:7px;border-radius:50%;background:#1A8F57;animation:ek-dot 1.1s infinite .18s;"></span>
+                <span style="width:7px;height:7px;border-radius:50%;background:#1A8F57;animation:ek-dot 1.1s infinite .36s;"></span>
+              </div>
+            </sc-if>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#1A8F57; text-transform:uppercase; margin-bottom:10px;">Asistent</div>
+            <sc-for list="{{ hero.rows }}" as="row" hint-placeholder-count="4">
+              <sc-if value="{{ row.isHead }}" hint-placeholder-val="{{ false }}">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; color:#9AA8A0; padding:4px 0 8px; transition:opacity .4s ease, transform .4s ease; opacity:{{ row.opacity }}; transform:{{ row.transform }};">{{ row.label }}</div>
+              </sc-if>
+              <sc-if value="{{ row.isKv }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:9px 0; border-top:1px solid #ECEFEC; font-family:'IBM Plex Mono',monospace; transition:opacity .4s ease, transform .4s ease; opacity:{{ row.opacity }}; transform:{{ row.transform }};">
+                  <span style="font-size:13px; color:#5C6B72;">{{ row.label }}</span>
+                  <span style="font-size:14.5px; font-weight:600; color:{{ row.valueColor }}; border-radius:4px; padding:1px 5px; margin:-1px -5px; animation:{{ row.flashAnim }};">{{ row.value }}</span>
+                </div>
+              </sc-if>
+              <sc-if value="{{ row.isInsight }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex; gap:10px; margin-top:12px; padding:12px 13px; background:#F2F8F4; border-left:2px solid #1A8F57; border-radius:0 6px 6px 0; transition:opacity .4s ease, transform .4s ease; opacity:{{ row.opacity }}; transform:{{ row.transform }};">
+                  <span style="font-size:13.5px; line-height:1.45; color:#16242E;">{{ row.label }}</span>
+                </div>
+              </sc-if>
+            </sc-for>
+            <div style="margin-top:16px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.06em; color:#B6C0B9;">Demo data — your real numbers in the live system</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section data-screen-label="Trust strip" style="background:#16242E; border-top:1px solid #21323D;">
+    <div style="max-width:1200px; margin:0 auto; padding:18px clamp(20px,5vw,40px); display:flex; flex-wrap:wrap; gap:14px 28px; align-items:center; justify-content:center; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em; color:#9DB0A6;">
+      <span style="display:inline-flex; align-items:center; gap:9px;"><span style="width:6px;height:6px;background:#1A8F57;transform:rotate(45deg);"></span> Now onboarding distributors across <span style="color:#E7EDE9;">[REGION — placeholder]</span></span>
+      <span style="opacity:0.4;">·</span>
+      <span>Built with a working distributor — old ERP switched off</span>
+    </div>
+  </section>
+
+  <!-- PAIN -->
+  <section data-screen-label="Pain" style="position:relative; background:#F4F5F2;">
+    <div style="max-width:1200px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
+      <div style="display:flex; flex-wrap:wrap; gap:clamp(28px,4vw,56px); align-items:center;">
+        <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; flex:1 1 360px; min-width:280px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">◆ The day-to-day</div>
+          <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; margin:0 0 14px; max-width:18ch;">Built for how distribution actually runs.</h2>
+          <p style="margin:0; color:#5C6B72; font-size:clamp(16px,1.7vw,18px); line-height:1.55; max-width:42ch;">Four things that quietly cost a distributor money every week — in the language of the warehouse, the route and the month-end.</p>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; transition-delay:90ms; flex:1 1 360px; min-width:280px;">
+          <div style="position:relative; border-radius:12px; overflow:hidden; aspect-ratio:16/11; background:#16242E; border:1px solid #C9D0CA;">
+            <img src="assets/pain-texture.png" alt="Shrink-wrapped pallets of bottled stock in a distribution warehouse" style="width:100%; height:100%; object-fit:cover; display:block;">
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(16,29,37,0) 55%, rgba(16,29,37,0.5) 100%);"></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:clamp(34px,5vw,56px); border-top:1px solid #C9D0CA;">
+        <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; transition-delay:0ms; display:flex; flex-wrap:wrap; gap:18px; align-items:baseline; padding:clamp(20px,3vw,30px) 0; border-bottom:1px solid #DCE1DC;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:#B86A33; font-weight:600; width:42px; flex:none;">01</span>
+          <div style="flex:1 1 280px;"><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:clamp(19px,2.2vw,25px); color:#16242E; margin-bottom:6px;">Orders re-typed by hand</div><p style="margin:0; color:#5C6B72; font-size:15.5px; line-height:1.5; max-width:52ch;">Phone calls and WhatsApp messages turned into order lines by someone at a keyboard — every typo becomes a wrong delivery.</p></div>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; transition-delay:85ms; display:flex; flex-wrap:wrap; gap:18px; align-items:baseline; padding:clamp(20px,3vw,30px) 0; border-bottom:1px solid #DCE1DC;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:#B86A33; font-weight:600; width:42px; flex:none;">02</span>
+          <div style="flex:1 1 280px;"><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:clamp(19px,2.2vw,25px); color:#16242E; margin-bottom:6px;">Stock that's "available" until it isn't</div><p style="margin:0; color:#5C6B72; font-size:15.5px; line-height:1.5; max-width:52ch;">The screen says in stock; the truck loads half-empty. Reorder points that never matched real route demand.</p></div>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; transition-delay:170ms; display:flex; flex-wrap:wrap; gap:18px; align-items:baseline; padding:clamp(20px,3vw,30px) 0; border-bottom:1px solid #DCE1DC;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:#B86A33; font-weight:600; width:42px; flex:none;">03</span>
+          <div style="flex:1 1 280px;"><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:clamp(19px,2.2vw,25px); color:#16242E; margin-bottom:6px;">Commissions rebuilt every month-end</div><p style="margin:0; color:#5C6B72; font-size:15.5px; line-height:1.5; max-width:52ch;">A spreadsheet stitched together by hand for each agent, every month — slow, and argued over.</p></div>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; transition-delay:255ms; display:flex; flex-wrap:wrap; gap:18px; align-items:baseline; padding:clamp(20px,3vw,30px) 0; border-bottom:1px solid #DCE1DC;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:#B86A33; font-weight:600; width:42px; flex:none;">04</span>
+          <div style="flex:1 1 280px;"><div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:clamp(19px,2.2vw,25px); color:#16242E; margin-bottom:6px;">A line sold at a loss, found out too late</div><p style="margin:0; color:#5C6B72; font-size:15.5px; line-height:1.5; max-width:52ch;">A product quietly selling below cost — discovered after the quarter closes, when nothing can be done about it.</p></div>
+        </div>
+      </div>
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; transition-delay:120ms; margin-top:clamp(34px,5vw,52px); display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start; max-width:760px;">
+        <span style="width:13px;height:13px;background:#1A8F57;transform:rotate(45deg);flex:none;margin-top:7px;"></span>
+        <p style="margin:0; font-size:clamp(17px,2vw,22px); line-height:1.45; color:#16242E; font-weight:500;">Built with a distributor, on a distributor's data — it already knows what a route, a return, and a rebate are.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRY THE ASISTENT -->
+  <section id="try" data-screen-label="Try the Asistent" style="background:#16242E; position:relative;">
+    <div style="max-width:1200px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; max-width:640px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#5FCF94; margin-bottom:18px;">◆ Try it yourself</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; color:#F4F5F2; margin:0 0 14px;">Ask it a real distribution question.</h2>
+        <p style="font-size:clamp(16px,1.7vw,18px); line-height:1.55; color:#AFBEB6; margin:0;">Pick a question — or type your own. It answers from live operations. When it needs to change something, it shows you the exact edit and waits for your yes.</p>
+      </div>
+
+      <div style="margin-top:clamp(34px,5vw,52px); display:flex; flex-wrap:wrap; gap:clamp(20px,3vw,34px); align-items:flex-start;">
+        <!-- LEFT: chips + input -->
+        <div style="flex:1 1 320px; min-width:280px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:#7E8F86; margin-bottom:14px;">Suggested questions</div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <sc-for list="{{ chips }}" as="chip" hint-placeholder-count="6">
+              <button type="button" onClick="{{ chip.onClick }}" style="display:flex; align-items:center; justify-content:space-between; gap:12px; text-align:left; width:100%; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.14); color:#E7EDE9; font-size:14.5px; font-weight:500; padding:13px 16px; border-radius:8px; transition:background .18s ease, border-color .18s ease;" style-hover="background:rgba(95,207,148,0.12); border-color:rgba(95,207,148,0.5);">
+                <span>{{ chip.label }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#5FCF94; opacity:0.8;">ask</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="margin-top:18px; display:flex; gap:8px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.14); border-radius:8px; padding:6px 6px 6px 14px;">
+            <input value="{{ freeText }}" onInput="{{ onFreeInput }}" onKeyDown="{{ onFreeKey }}" placeholder="Type your own question…" aria-label="Type your own question" style="flex:1; background:transparent; border:none; color:#F4F5F2; font-size:14.5px; outline:none; min-width:0;">
+            <button type="button" onClick="{{ onFreeSubmit }}" aria-label="Ask" style="flex:none; background:#1A8F57; color:#fff; border:none; font-weight:600; font-size:14px; padding:9px 16px; border-radius:6px;">Ask</button>
+          </div>
+        </div>
+
+        <!-- RIGHT: conversation panel -->
+        <div style="flex:1 1 440px; min-width:300px;">
+          <div style="background:#FFFFFF; border:1px solid #2B3D48; border-radius:14px; box-shadow:0 30px 70px rgba(0,0,0,0.4); overflow:hidden;">
+            <div style="display:flex; align-items:center; gap:9px; padding:13px 18px; border-bottom:1px solid #DCE1DC; background:#F4F5F2;">
+              <span style="width:9px;height:9px;background:#1A8F57;border-radius:50%;display:inline-block;box-shadow:0 0 0 3px rgba(26,143,87,0.18);"></span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#16242E; font-weight:600;">Asistent</span>
+              <span style="margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#9AA8A0;">LIVE OPERATIONS</span>
+            </div>
+            <div style="padding:20px; min-height:340px;">
+              <sc-if value="{{ demo.idle }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex; flex-direction:column; align-items:flex-start; gap:10px; padding:36px 4px; color:#9AA8A0;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em;">Ready.</span>
+                  <span style="font-size:15px; line-height:1.5; color:#5C6B72; max-width:34ch;">Pick a question on the left and watch it answer from live operations.</span>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ demo.typed }}" hint-placeholder-val="">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#9AA8A0; text-transform:uppercase; margin-bottom:7px;">You</div>
+                <div style="font-size:15px; line-height:1.5; color:#16242E; margin-bottom:18px;">{{ demo.typed }}<sc-if value="{{ demo.caret }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block; width:8px; height:17px; background:#1A8F57; margin-left:2px; vertical-align:-3px; animation:ek-blink 1s step-end infinite;"></span></sc-if></div>
+              </sc-if>
+
+              <sc-if value="{{ demo.thinking }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex; align-items:center; gap:5px; padding:4px 0 8px;">
+                  <span style="width:7px;height:7px;border-radius:50%;background:#1A8F57;animation:ek-dot 1.1s infinite;"></span>
+                  <span style="width:7px;height:7px;border-radius:50%;background:#1A8F57;animation:ek-dot 1.1s infinite .18s;"></span>
+                  <span style="width:7px;height:7px;border-radius:50%;background:#1A8F57;animation:ek-dot 1.1s infinite .36s;"></span>
+                </div>
+              </sc-if>
+
+              <sc-for list="{{ demo.rows }}" as="row" hint-placeholder-count="0">
+                <sc-if value="{{ row.isHead }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; color:#9AA8A0; padding:2px 0 8px; transition:opacity .4s ease, transform .4s ease; opacity:{{ row.opacity }}; transform:{{ row.transform }};">{{ row.label }}</div>
+                </sc-if>
+                <sc-if value="{{ row.isKv }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:9px 0; border-top:1px solid #ECEFEC; font-family:'IBM Plex Mono',monospace; transition:opacity .4s ease, transform .4s ease; opacity:{{ row.opacity }}; transform:{{ row.transform }};">
+                    <span style="font-size:13px; color:#5C6B72;">{{ row.label }}</span>
+                    <span style="font-size:14.5px; font-weight:600; color:{{ row.valueColor }};">{{ row.value }}</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ row.isInsight }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top:12px; padding:12px 13px; background:#F2F8F4; border-left:2px solid #1A8F57; border-radius:0 6px 6px 0; transition:opacity .4s ease, transform .4s ease; opacity:{{ row.opacity }}; transform:{{ row.transform }};">
+                    <span style="font-size:13.5px; line-height:1.45; color:#16242E;">{{ row.label }}</span>
+                  </div>
+                </sc-if>
+              </sc-for>
+
+              <!-- CONFIRM CARD -->
+              <sc-if value="{{ demo.confirmPending }}" hint-placeholder-val="{{ false }}">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:#1A8F57; text-transform:uppercase; margin-bottom:10px;">Confirm before it writes</div>
+                <div style="border:1.5px dashed #1A8F57; border-radius:10px; padding:16px; background:#F7FBF8;">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; color:#5C6B72; margin-bottom:10px;">EKRON WILL CREATE:</div>
+                  <sc-for list="{{ demo.confirm.fields }}" as="f" hint-placeholder-count="8">
+                    <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:7px 0; border-top:1px solid #E2EBE5; font-family:'IBM Plex Mono',monospace;">
+                      <span style="font-size:12.5px; color:#5C6B72;">{{ f.k }}</span>
+                      <span style="font-size:13px; font-weight:600; color:#16242E; text-align:right;">{{ f.v }}</span>
+                    </div>
+                  </sc-for>
+                  <div style="display:flex; gap:10px; margin-top:16px;">
+                    <button type="button" onClick="{{ onConfirm }}" style="flex:1; background:#1A8F57; color:#fff; border:none; font-weight:600; font-size:14.5px; padding:12px; border-radius:7px;">Confirm</button>
+                    <button type="button" onClick="{{ onCancel }}" style="flex:none; background:transparent; color:#5C6B72; border:1px solid #C9D0CA; font-weight:600; font-size:14.5px; padding:12px 20px; border-radius:7px;">Cancel</button>
+                  </div>
+                </div>
+                <div style="margin-top:12px; font-size:12.5px; line-height:1.45; color:#5C6B72;">Nothing is written until you press Confirm.</div>
+              </sc-if>
+
+              <!-- SUCCESS -->
+              <sc-if value="{{ demo.confirmDone }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex; align-items:center; gap:11px; padding:16px; background:#1A8F57; border-radius:10px; color:#fff;">
+                  <span style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.22);display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:none;">✓</span>
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:13.5px; font-weight:500;">Return RET-0192 created · €43.20 credit issued</span>
+                </div>
+                <div style="margin-top:14px; display:flex; gap:10px;">
+                  <button type="button" onClick="{{ onCancel }}" style="background:transparent; color:#5C6B72; border:1px solid #C9D0CA; font-weight:600; font-size:13.5px; padding:10px 18px; border-radius:7px;">Ask something else</button>
+                </div>
+              </sc-if>
+
+              <div style="margin-top:18px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.06em; color:#B6C0B9;">Demo data — your real numbers in the live system</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; margin-top:clamp(28px,4vw,40px); display:flex; gap:14px; align-items:flex-start; max-width:760px;">
+        <span style="width:11px;height:11px;background:#1A8F57;transform:rotate(45deg);flex:none;margin-top:6px;"></span>
+        <p style="margin:0; font-size:clamp(15px,1.7vw,18px); line-height:1.5; color:#E7EDE9; font-weight:500;">It never writes to your system without showing you the exact change first — and waiting for your yes. No surprise edits, ever.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY EKRON -->
+  <section data-screen-label="Why Ekron" style="background:#F4F5F2;">
+    <div style="max-width:1200px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; max-width:680px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">◆ Why Ekron</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; margin:0 0 14px;">Better than the system you have now.</h2>
+        <p style="font-size:clamp(16px,1.7vw,18px); line-height:1.55; color:#5C6B72; margin:0;">Not another module bolted on. One system that replaces the legacy stack, understands distribution, and acts only when you say so.</p>
+      </div>
+
+      <div style="margin-top:clamp(34px,5vw,56px); display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1px; background:#DCE1DC; border:1px solid #DCE1DC; border-radius:14px; overflow:hidden;">
+        <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; background:#FFFFFF; padding:clamp(24px,3vw,32px);">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:14px;">01</div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px; margin:0 0 9px; letter-spacing:-0.01em;">You can just ask it.</h3>
+          <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">No menus to hunt, no report to export. Answers from live operations, in plain language.</p>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:85ms; background:#FFFFFF; padding:clamp(24px,3vw,32px);">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:14px;">02</div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px; margin:0 0 9px; letter-spacing:-0.01em;">Built for distribution.</h3>
+          <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">Developed with a real distributor on real data. It natively understands routes, returns, rebates, agent commissions and HoReCa.</p>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:170ms; background:#FFFFFF; padding:clamp(24px,3vw,32px);">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:14px;">03</div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px; margin:0 0 9px; letter-spacing:-0.01em;">One system, end to end.</h3>
+          <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">Orders, stock, pricing, invoicing, dispatch, reporting — the whole legacy stack, replaced. Not tools bolted together.</p>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; background:#FFFFFF; padding:clamp(24px,3vw,32px);">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:14px;">04</div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px; margin:0 0 9px; letter-spacing:-0.01em;">Margins and stock in real time.</h3>
+          <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">See a losing line the day it happens, not after the quarter closes.</p>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:85ms; background:#FFFFFF; padding:clamp(24px,3vw,32px);">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:14px;">05</div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px; margin:0 0 9px; letter-spacing:-0.01em;">Safe by design.</h3>
+          <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">The Asistent only acts after you confirm the exact change. No black-box edits to your data.</p>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:170ms; background:#FFFFFF; padding:clamp(24px,3vw,32px);">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:14px;">06</div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px; margin:0 0 9px; letter-spacing:-0.01em;">Proven end to end.</h3>
+          <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">A real business already runs entirely on it — with the old ERP switched off.</p>
+        </div>
+      </div>
+
+      <!-- COMPARISON TABLE -->
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; margin-top:clamp(40px,5vw,64px);">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#5C6B72; margin-bottom:16px;">Ekron vs the alternatives</div>
+        <div style="border:1px solid #C9D0CA; border-radius:12px; overflow:hidden; background:#FFFFFF;">
+          <div style="display:grid; grid-template-columns:minmax(180px,2.2fr) repeat(3,minmax(72px,1fr)); background:#16242E;">
+            <div style="padding:15px clamp(14px,2vw,20px); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#9DB0A6;">CAPABILITY</div>
+            <div style="padding:15px 10px; text-align:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:#5FCF94;">Ekron</div>
+            <div style="padding:15px 10px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Legacy ERP</div>
+            <div style="padding:15px 10px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Spreadsheets</div>
+          </div>
+          <sc-for list="{{ cmp }}" as="r" hint-placeholder-count="6">
+            <div style="display:grid; grid-template-columns:minmax(180px,2.2fr) repeat(3,minmax(72px,1fr)); border-top:1px solid #E2E7E2; align-items:center;">
+              <div style="padding:14px clamp(14px,2vw,20px); font-size:14.5px; line-height:1.4; color:#16242E; font-weight:500;">{{ r.cap }}</div>
+              <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                <div style="padding:14px 10px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:{{ c.size }}; font-weight:{{ c.weight }}; color:{{ c.color }};">{{ c.text }}</div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF BAND -->
+  <section data-screen-label="Proof" style="position:relative; background:#16242E; overflow:hidden;">
+    <video autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+      <source src="assets/hero-bg.mp4" type="video/mp4">
+    </video>
+    <div style="position:absolute; inset:0; background:rgba(16,29,37,0.78);"></div>
+    <div style="position:relative; max-width:1100px; margin:0 auto; padding:clamp(72px,10vw,128px) clamp(20px,5vw,40px); text-align:center;">
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#5FCF94; margin-bottom:22px;">◆ Not a pilot</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4.4vw,52px); line-height:1.1; letter-spacing:-0.02em; color:#F4F5F2; margin:0 auto; max-width:20ch;">One distributor runs their <span style="color:#5FCF94;">entire business</span> on Ekron today. Their old ERP is switched off.</h2>
+      </div>
+      <div style="margin-top:clamp(40px,6vw,68px); display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:clamp(20px,3vw,30px); max-width:840px; margin-left:auto; margin-right:auto;">
+        <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; padding:clamp(20px,3vw,28px) 16px; border:1px solid rgba(255,255,255,0.14); border-radius:12px; background:rgba(255,255,255,0.03);">
+          <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(34px,4.4vw,52px); color:#5FCF94; line-height:1;">100%</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em; color:#AFBEB6; margin-top:12px;">of operations on Ekron</div>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:85ms; padding:clamp(20px,3vw,28px) 16px; border:1px solid rgba(255,255,255,0.14); border-radius:12px; background:rgba(255,255,255,0.03);">
+          <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(34px,4.4vw,52px); color:#F4F5F2; line-height:1;">[N]</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em; color:#AFBEB6; margin-top:12px;">months of history live <span style="color:#7E8F86;">[fill]</span></div>
+        </div>
+        <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:170ms; padding:clamp(20px,3vw,28px) 16px; border:1px solid rgba(255,255,255,0.14); border-radius:12px; background:rgba(255,255,255,0.03);">
+          <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(34px,4.4vw,52px); color:#F4F5F2; line-height:1;">0</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em; color:#AFBEB6; margin-top:12px;">fallback systems</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTCOMES -->
+  <section data-screen-label="Outcomes" style="background:#F4F5F2;">
+    <div style="max-width:1100px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; max-width:640px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">◆ Measured results</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; margin:0 0 12px;">The ledger, before and after.</h2>
+        <p style="font-size:15px; line-height:1.5; color:#5C6B72; margin:0; font-family:'IBM Plex Mono',monospace;">Figures from the live customer — <span style="color:#B86A33;">[placeholders — replace with real measured numbers]</span></p>
+      </div>
+
+      <div style="margin-top:clamp(32px,5vw,52px); border:1px solid #C9D0CA; border-radius:12px; overflow:hidden; background:#FFFFFF;">
+        <div style="display:grid; grid-template-columns:minmax(160px,2fr) repeat(3,minmax(82px,1fr)); background:#16242E;">
+          <div style="padding:15px clamp(14px,2vw,22px); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#9DB0A6;">METRIC</div>
+          <div style="padding:15px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Before</div>
+          <div style="padding:15px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#5FCF94;">With Ekron</div>
+          <div style="padding:15px clamp(14px,2vw,22px) 15px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Change</div>
+        </div>
+        <sc-for list="{{ outcomes }}" as="o" hint-placeholder-count="5">
+          <div data-reveal style="opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; display:grid; grid-template-columns:minmax(160px,2fr) repeat(3,minmax(82px,1fr)); border-top:1px solid #E2E7E2; align-items:baseline; font-family:'IBM Plex Mono',monospace;">
+            <div style="padding:15px clamp(14px,2vw,22px); font-size:14px; color:#16242E; font-weight:500;">{{ o.metric }}</div>
+            <div style="padding:15px 10px; text-align:right; font-size:14px; color:#8A968D;">{{ o.before }}</div>
+            <div style="padding:15px 10px; text-align:right; font-size:14.5px; color:#16242E; font-weight:600;">{{ o.after }}</div>
+            <div style="padding:15px clamp(14px,2vw,22px) 15px 10px; text-align:right; font-size:14px; font-weight:600; color:{{ o.deltaColor }};">{{ o.delta }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE SWITCH -->
+  <section data-screen-label="The switch" style="background:#FFFFFF; border-top:1px solid #DCE1DC;">
+    <div style="max-width:1200px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
+      <div style="display:flex; flex-wrap:wrap; gap:clamp(28px,4vw,56px); align-items:stretch;">
+        <div style="flex:1 1 320px; min-width:280px; display:flex; flex-direction:column;">
+          <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">◆ The switch</div>
+            <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; margin:0 0 14px;">Changing systems without holding your breath.</h2>
+            <p style="font-size:clamp(16px,1.7vw,18px); line-height:1.55; color:#5C6B72; margin:0;">The fear is real: a switch that breaks the business. Here's how it actually goes.</p>
+          </div>
+          <div style="margin-top:auto; padding-top:clamp(24px,3vw,34px);">
+            <div style="position:relative; border-radius:12px; overflow:hidden; aspect-ratio:16/10; background:#16242E;">
+              <img src="assets/switch.png" alt="Loading a delivery van at the warehouse dock at dusk" style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+          </div>
+        </div>
+        <div style="flex:1 1 380px; min-width:280px; display:flex; flex-direction:column; gap:16px;">
+          <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; border:1px solid #DCE1DC; border-left:3px solid #1A8F57; border-radius:0 12px 12px 0; padding:clamp(22px,3vw,30px); background:#F4F5F2;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:12px;">STEP 01</div>
+            <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; margin:0 0 9px; letter-spacing:-0.01em;">We migrate your full history.</h3>
+            <p style="margin:0; color:#5C6B72; font-size:15.5px; line-height:1.55;">Every order, customer, SKU, price list and open balance — moved over, not left behind.</p>
+          </div>
+          <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:85ms; border:1px solid #DCE1DC; border-left:3px solid #1A8F57; border-radius:0 12px 12px 0; padding:clamp(22px,3vw,30px); background:#F4F5F2;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:12px;">STEP 02</div>
+            <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; margin:0 0 9px; letter-spacing:-0.01em;">You verify your real data inside Ekron.</h3>
+            <p style="margin:0; color:#5C6B72; font-size:15.5px; line-height:1.55;">Check your own numbers in the live system — first — before anything depends on it.</p>
+          </div>
+          <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:170ms; border:1px solid #DCE1DC; border-left:3px solid #1A8F57; border-radius:0 12px 12px 0; padding:clamp(22px,3vw,30px); background:#F4F5F2;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:12px;">STEP 03</div>
+            <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; margin:0 0 9px; letter-spacing:-0.01em;">You decide the day the old system goes dark.</h3>
+            <p style="margin:0; color:#5C6B72; font-size:15.5px; line-height:1.55;">Cutover happens on your date, not ours. No forced switch, no surprise weekend.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section data-screen-label="Testimonial" style="background:#F4F5F2;">
+    <div style="max-width:920px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:28px;">◆ From the distributor running on Ekron</div>
+        <blockquote style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(24px,3.4vw,40px); line-height:1.22; letter-spacing:-0.015em; color:#16242E;">“[TESTIMONIAL — real quote. Specific and honest: name the thing that changed at month-end, on the route, or in the warehouse — not generic praise.]”</blockquote>
+        <div style="margin-top:30px; display:flex; align-items:center; gap:14px;">
+          <span style="width:13px;height:13px;background:#1A8F57;transform:rotate(45deg);flex:none;"></span>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; line-height:1.5; color:#5C6B72;">[NAME — title], [Company]<br><span style="color:#9AA8A0;">Old ERP switched off · [month/year — fill]</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section id="cta" data-screen-label="Final CTA" style="position:relative; background:#16242E; overflow:hidden;">
+    <img src="assets/cta-bg.png" alt="" aria-hidden="true" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.5;">
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(16,29,37,0.86) 0%, rgba(16,29,37,0.72) 50%, rgba(16,29,37,0.88) 100%);"></div>
+    <div style="position:relative; max-width:880px; margin:0 auto; padding:clamp(72px,11vw,140px) clamp(20px,5vw,40px); text-align:center;">
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease;">
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(30px,4.6vw,56px); line-height:1.08; letter-spacing:-0.025em; color:#F4F5F2; margin:0 0 18px; max-width:18ch; margin-left:auto; margin-right:auto;">See Ekron run on your numbers.</h2>
+        <p style="font-size:clamp(16px,1.8vw,19px); line-height:1.5; color:#C3CEC8; margin:0 auto 36px; max-width:34ch;">Bring a question from your own business. We'll answer it live.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:14px; justify-content:center;">
+          <a href="#cta" style="display:inline-flex; align-items:center; background:#1A8F57; color:#fff; font-weight:600; font-size:16.5px; padding:16px 30px; border-radius:8px; text-decoration:none; box-shadow:0 6px 24px rgba(26,143,87,0.4);">Book a demo</a>
+          <a href="#cta" style="display:inline-flex; align-items:center; color:#E7EDE9; font-weight:600; font-size:16.5px; padding:16px 26px; border-radius:8px; text-decoration:none; border:1px solid rgba(231,237,233,0.32);">Talk to a founder</a>
+        </div>
+        <p style="margin:30px auto 0; font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.04em; color:#9DB0A6; max-width:48ch; line-height:1.6;">A 30-minute walkthrough — your data or ours. No slides, just the system.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer data-screen-label="Footer" style="background:#16242E; border-top:1px solid #21323D;">
+    <div style="max-width:1200px; margin:0 auto; padding:clamp(40px,5vw,56px) clamp(20px,5vw,40px); display:flex; flex-wrap:wrap; gap:18px 28px; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:11px;">
+        <span style="width:12px; height:12px; background:#1A8F57; transform:rotate(45deg); display:inline-block; border-radius:2px;"></span>
+        <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; letter-spacing:-0.02em; color:#F4F5F2;">Ekron</span>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.04em; color:#7E8F86; flex:1 1 300px; text-align:center; min-width:200px;">The ERP for FMCG wholesale distribution — that you can just ask.</div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#7E8F86;">© 2026 Ekron</div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = {
+      narrow:false, reduce:false,
+      heroTyped:'', heroCaret:true, heroThinking:false, heroRevealed:0, heroHighlight:false,
+      dq:'', dCaret:false, dTyping:false, dThinking:false, dRevealed:0,
+      dAnswerId:null, dConfirm:'none', freeText:''
+    };
+    this.timers=[];
+
+    this.HERO = { q:'How much did stockouts cost us in Cluj last month?', rows:[
+      {kind:'head', label:'STOCKOUTS · CLUJ · MAY 2026'},
+      {kind:'kv', label:'Estimated lost sales', value:'\u20AC12,480', highlight:true},
+      {kind:'kv', label:'Worst offender', value:'Aqua Carpatica 2L \u00D76'},
+      {kind:'insight', label:'Reorder point is 2 days too low for Cluj demand. Raise it to 480 units.'}
+    ]};
+
+    this.CHIPS = [
+      {id:'stockout', label:'Stockout cost · Cluj'},
+      {id:'dormant',  label:'Customers gone quiet'},
+      {id:'margin',   label:'Margin vs last month'},
+      {id:'topsku',   label:'Top SKUs by margin'},
+      {id:'agents',   label:'Agents vs target'},
+      {id:'return',   label:'Create a return \u2192', write:true}
+    ];
+
+    this.ANSWERS = {
+      stockout:{ q:'How much did stockouts cost us in Cluj last month?', rows:[
+        {kind:'head', label:'STOCKOUTS · CLUJ · MAY 2026'},
+        {kind:'kv', label:'Estimated lost sales', value:'\u20AC12,480', tone:'neg'},
+        {kind:'kv', label:'Worst offender', value:'Aqua Carpatica 2L \u00D76'},
+        {kind:'kv', label:'Days out of stock', value:'9 of 31'},
+        {kind:'insight', label:'Reorder point is 2 days too low for Cluj demand. Raise it to 480 units.'}
+      ]},
+      dormant:{ q:"Which customers haven't ordered in 30 days?", rows:[
+        {kind:'head', label:'DORMANT · 30+ DAYS · 4 ACCOUNTS'},
+        {kind:'kv', label:'Market Dorobanți', value:'37d · \u20AC3,200/mo'},
+        {kind:'kv', label:'Profi Mănăștur', value:'33d · \u20AC2,750/mo'},
+        {kind:'kv', label:'La Doi Pași Gheorgheni', value:'31d · \u20AC1,900/mo'},
+        {kind:'kv', label:'Boutique HoReCa Someș', value:'30d · \u20AC1,400/mo'},
+        {kind:'insight', label:'\u20AC9,250/mo of recurring revenue at risk. Flag to agent Radu I.'}
+      ]},
+      margin:{ q:"What's my margin on Aqua Carpatica this month vs last?", rows:[
+        {kind:'head', label:'MARGIN · AQUA CARPATICA · MoM'},
+        {kind:'kv', label:'This month', value:'18.4%'},
+        {kind:'kv', label:'Last month', value:'21.1%'},
+        {kind:'kv', label:'Change', value:'\u22122.7 pts', tone:'neg'},
+        {kind:'insight', label:'Driver: a \u20AC0.14/unit supplier increase not yet passed to 3 HoReCa price lists.'}
+      ]},
+      topsku:{ q:'Top 5 SKUs by margin this quarter.', rows:[
+        {kind:'head', label:'TOP SKUs BY MARGIN · Q2 2026'},
+        {kind:'kv', label:'Borsec 0.5L \u00D712', value:'31.2%', tone:'pos'},
+        {kind:'kv', label:'Pepsi 2L \u00D76', value:'27.8%', tone:'pos'},
+        {kind:'kv', label:'Lays Sare 140g \u00D720', value:'26.4%', tone:'pos'},
+        {kind:'kv', label:'Ursus Premium \u00D724', value:'24.9%', tone:'pos'},
+        {kind:'kv', label:'Margarină Unirea \u00D740', value:'23.1%', tone:'pos'}
+      ]},
+      agents:{ q:'Which agent is over or under their commission target?', rows:[
+        {kind:'head', label:'AGENT COMMISSIONS · MAY · vs TARGET'},
+        {kind:'kv', label:'Radu Ionescu', value:'+14%', tone:'pos'},
+        {kind:'kv', label:'Elena Mureșan', value:'+6%', tone:'pos'},
+        {kind:'kv', label:'Andrei Pop', value:'\u22123%', tone:'neg'},
+        {kind:'kv', label:'Cristina Vlad', value:'\u221211%', tone:'neg'},
+        {kind:'insight', label:'Andrei and Cristina are short on HoReCa volume — both 2 routes behind plan.'}
+      ]},
+      return:{ q:'Create a return for invoice 4471 — 2 cases, damaged.', write:true, rows:[] }
+    };
+
+    const CK={text:'\u2713', color:'#1A8F57', weight:700, size:'16px'};
+    const EK={text:'\u2713', color:'#5C6B72', weight:600, size:'15px'};
+    const PA={text:'partial', color:'#8A968D', weight:500, size:'12px'};
+    const NO={text:'\u2014', color:'#C9D0CA', weight:500, size:'15px'};
+    const NA={text:'\u2014', color:'#C9D0CA', weight:500, size:'15px'};
+    this.CMP = [
+      {cap:'Ask in plain language', cells:[CK,NO,NO]},
+      {cap:'Real-time margin per line', cells:[CK,PA,NO]},
+      {cap:'Built for distribution (routes / returns / rebates)', cells:[CK,PA,NO]},
+      {cap:'Confirm-gated actions', cells:[CK,NA,NA]},
+      {cap:'Full-history migration', cells:[CK,NO,NA]},
+      {cap:'One unified system', cells:[CK,EK,NO]}
+    ].map((r,i)=>({ cap:r.cap, cells:r.cells.map((c,j)=>({key:j, text:c.text, color:c.color, weight:c.weight, size:c.size, ekron:j===0})), last:i===5 }));
+
+    this.CONFIRM = { fields:[
+      {k:'Action', v:'Create credit return'},
+      {k:'Return ID', v:'RET-0192'},
+      {k:'Invoice', v:'#4471 · Market Dorobanți'},
+      {k:'Item', v:'Borsec 0.5L \u00D712 (case)'},
+      {k:'Quantity', v:'2 cases'},
+      {k:'Reason', v:'Damaged in transit'},
+      {k:'Credit amount', v:'\u20AC43.20'},
+      {k:'Restock', v:'No — damaged'}
+    ]};
+  }
+
+  componentDidMount(){
+    this.mqR = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.mqN = window.matchMedia('(max-width: 820px)');
+    this.setState({ reduce:this.mqR.matches, narrow:this.mqN.matches });
+    this._onN = () => this.setState({ narrow:this.mqN.matches });
+    this.mqN.addEventListener('change', this._onN);
+    this.setupReveal();
+    this.t(()=>this.playHero(), 450);
+  }
+  componentWillUnmount(){ this.timers.forEach(clearTimeout); if(this._io) this._io.disconnect(); if(this.mqN) this.mqN.removeEventListener('change', this._onN); }
+  t(fn,ms){ const id=setTimeout(fn,ms); this.timers.push(id); return id; }
+
+  setupReveal(){
+    const els = Array.from(document.querySelectorAll('[data-reveal]'));
+    if(this.mqR.matches){ els.forEach(e=>{ e.style.opacity='1'; e.style.transform='none'; }); return; }
+    this._io = new IntersectionObserver((ents)=>{
+      ents.forEach(en=>{ if(en.isIntersecting){ en.target.style.opacity='1'; en.target.style.transform='none'; this._io.unobserve(en.target); } });
+    }, { threshold:0.12, rootMargin:'0px 0px -8% 0px' });
+    els.forEach(e=>this._io.observe(e));
+  }
+
+  typeInto(str, cb){ let i=0; const tick=()=>{ i++; cb(str.slice(0,i), i>=str.length); if(i<str.length) this.t(tick, 24+Math.random()*42); }; tick(); }
+
+  playHero(){
+    const q=this.HERO.q;
+    if(this.mqR.matches){ this.setState({ heroTyped:q, heroCaret:false, heroThinking:false, heroRevealed:this.HERO.rows.length, heroHighlight:true }); return; }
+    this.typeInto(q,(txt,done)=>{
+      this.setState({ heroTyped:txt, heroCaret:true });
+      if(done){ this.setState({ heroThinking:true }); this.t(()=>{ this.setState({ heroThinking:false, heroCaret:false }); this.revealHero(); }, 850); }
+    });
+  }
+  revealHero(){ const n=this.HERO.rows.length; const step=(i)=>{ this.setState({ heroRevealed:i }); if(i<n) this.t(()=>step(i+1),160); else this.t(()=>this.setState({ heroHighlight:true }), 280); }; step(1); }
+
+  selectChip(id){
+    this.timers.forEach(clearTimeout); this.timers=[];
+    const a=this.ANSWERS[id];
+    this.setState({ dAnswerId:id, dq:'', dTyping:true, dThinking:false, dRevealed:0, dConfirm:'none', freeText:'' });
+    if(this.mqR.matches){
+      this.setState({ dq:a.q, dTyping:false });
+      if(a.write) this.setState({ dConfirm:'pending' }); else this.setState({ dRevealed:a.rows.length });
+      return;
+    }
+    this.typeInto(a.q,(txt,done)=>{
+      this.setState({ dq:txt, dCaret:true, dTyping:true });
+      if(done){ this.setState({ dTyping:false, dThinking:true, dCaret:false }); this.t(()=>{ this.setState({ dThinking:false }); if(a.write) this.setState({ dConfirm:'pending' }); else this.revealDemo(a.rows.length); }, 800); }
+    });
+  }
+  revealDemo(n){ const step=(i)=>{ this.setState({ dRevealed:i }); if(i<n) this.t(()=>step(i+1),140); }; step(1); }
+  confirmReturn(){ this.setState({ dConfirm:'done' }); }
+  cancelReturn(){ this.setState({ dConfirm:'none', dAnswerId:null, dq:'' }); }
+
+  matchFree(txt){ const t=txt.toLowerCase();
+    if(/return|retur|invoice|factur|damage|deterior/.test(t)) return 'return';
+    if(/stockout|stoc|cluj|lips|out of stock/.test(t)) return 'stockout';
+    if(/dormant|order|comand|30|haven|quiet|n-au mai|inactiv/.test(t)) return 'dormant';
+    if(/margin|marj|profit/.test(t)) return 'margin';
+    if(/top|sku|best|cele mai/.test(t)) return 'topsku';
+    if(/agent|commission|comision|target|tinta/.test(t)) return 'agents';
+    return null;
+  }
+  freeSubmit(){
+    const txt=(this.state.freeText||'').trim(); if(!txt) return;
+    const id=this.matchFree(txt);
+    this.timers.forEach(clearTimeout); this.timers=[];
+    if(id){ this.selectChip(id); return; }
+    this.setState({ dAnswerId:'__fallback', dq:txt, dTyping:false, dThinking:false, dRevealed:1, dConfirm:'none', freeText:'' });
+  }
+
+  buildRows(a, revealed, reduce, highlightState){
+    if(!a || !a.rows) return [];
+    return a.rows.map((r,i)=>{
+      const shown = reduce || i<revealed;
+      return {
+        key:i,
+        isHead:r.kind==='head', isKv:r.kind==='kv', isInsight:r.kind==='insight',
+        label:r.label, value:r.value||'',
+        valueColor: r.tone==='neg'?'#B86A33':(r.tone==='pos'?'#1A8F57':'#16242E'),
+        opacity: shown?1:0,
+        transform: shown?'none':'translateY(6px)',
+        flashAnim: (highlightState && r.highlight) ? 'ek-flash 1.4s ease-out' : 'none'
+      };
+    });
+  }
+
+  resolveAnswer(id){
+    if(!id) return null;
+    if(id==='__fallback') return { rows:[{kind:'insight', label:'I don\u2019t have that one wired into the demo \u2014 book a demo to ask it about your own numbers.'}] };
+    return this.ANSWERS[id];
+  }
+  renderVals(){
+    const s=this.state;
+    return {
+      narrow:s.narrow,
+      hero:{
+        typed:s.heroTyped, caret:s.heroCaret, thinking:s.heroThinking,
+        rows:this.buildRows(this.HERO, s.heroRevealed, s.reduce, s.heroHighlight)
+      },
+      demo:{
+        typed:s.dq, caret:s.dCaret, typing:s.dTyping, thinking:s.dThinking,
+        rows:this.buildRows(this.resolveAnswer(s.dAnswerId), s.dRevealed, s.reduce, false),
+        idle: !s.dAnswerId && !s.dTyping && s.dConfirm==='none',
+        confirmPending: s.dConfirm==='pending',
+        confirmDone: s.dConfirm==='done',
+        confirm:this.CONFIRM
+      },
+      chips:this.CHIPS.map(c=>({ id:c.id, label:c.label, write:!!c.write, active:c.id===s.dAnswerId, onClick:()=>this.selectChip(c.id) })),
+      cmp:this.CMP,
+      outcomes:[
+        {metric:'Order entry per line', before:'~4 min', after:'<30 sec', delta:'\u221288%', deltaColor:'#1A8F57'},
+        {metric:'Month-end commission run', before:'2 days', after:'automatic', delta:'\u22122 days', deltaColor:'#1A8F57'},
+        {metric:'Stockout incidents / mo', before:'[N]', after:'[N]', delta:'\u2212[X]%', deltaColor:'#B86A33'},
+        {metric:'Margin visibility', before:'quarterly', after:'live', delta:'real-time', deltaColor:'#1A8F57'},
+        {metric:'Returns logged correctly', before:'[X]%', after:'99%+', delta:'+[X] pts', deltaColor:'#B86A33'}
+      ],
+      freeText:s.freeText,
+      onFreeInput:(e)=>this.setState({freeText:e.target.value}),
+      onFreeKey:(e)=>{ if(e.key==='Enter'){ e.preventDefault(); this.freeSubmit(); } },
+      onFreeSubmit:()=>this.freeSubmit(),
+      onConfirm:()=>this.confirmReturn(),
+      onCancel:()=>this.cancelReturn()
+    };
+  }
+}
+</script>
+</body>
+</html>

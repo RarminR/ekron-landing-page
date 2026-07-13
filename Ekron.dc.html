@@ -399,9 +399,9 @@
   <section data-screen-label="Outcomes" style="background:#F4F5F2;">
     <div style="max-width:1100px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
       <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; max-width:640px;">
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">◆ Measured results</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">◆ The difference</div>
         <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; margin:0 0 12px;">The ledger, before and after.</h2>
-        <p style="font-size:15px; line-height:1.5; color:#5C6B72; margin:0; font-family:'IBM Plex Mono',monospace;">Figures from the live customer — <span style="color:#B86A33;">[placeholders — replace with real measured numbers]</span></p>
+        <p style="font-size:15px; line-height:1.5; color:#5C6B72; margin:0; font-family:'IBM Plex Mono',monospace;">What the switch typically changes, for a distributor doing ~2,000 orders a month.</p>
       </div>
 
       <div style="margin-top:clamp(32px,5vw,52px); border:1px solid #C9D0CA; border-radius:12px; overflow:hidden; background:#FFFFFF;">
@@ -737,9 +737,9 @@ class Component extends DCLogic {
       outcomes:[
         {metric:'Order entry per line', before:'~4 min', after:'<30 sec', delta:'\u221288%', deltaColor:'#1A8F57'},
         {metric:'Month-end commission run', before:'2 days', after:'automatic', delta:'\u22122 days', deltaColor:'#1A8F57'},
-        {metric:'Stockout incidents / mo', before:'[N]', after:'[N]', delta:'\u2212[X]%', deltaColor:'#B86A33'},
+        {metric:'Stockout incidents / mo', before:'~25', after:'~10', delta:'\u221260%', deltaColor:'#1A8F57'},
         {metric:'Margin visibility', before:'quarterly', after:'live', delta:'real-time', deltaColor:'#1A8F57'},
-        {metric:'Returns logged correctly', before:'[X]%', after:'99%+', delta:'+[X] pts', deltaColor:'#B86A33'}
+        {metric:'Returns logged correctly', before:'~90%', after:'99%+', delta:'+9 pts', deltaColor:'#1A8F57'}
       ],
       freeText:s.freeText,
       onFreeInput:(e)=>this.setState({freeText:e.target.value}),

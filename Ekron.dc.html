@@ -343,21 +343,23 @@
       <!-- COMPARISON TABLE -->
       <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; margin-top:clamp(40px,5vw,64px);">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#5C6B72; margin-bottom:16px;">Ekron vs the alternatives</div>
-        <div style="border:1px solid #C9D0CA; border-radius:12px; overflow:hidden; background:#FFFFFF;">
-          <div style="display:grid; grid-template-columns:minmax(180px,2.2fr) repeat(3,minmax(72px,1fr)); background:#16242E;">
-            <div style="padding:15px clamp(14px,2vw,20px); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#9DB0A6;">CAPABILITY</div>
-            <div style="padding:15px 10px; text-align:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:#5FCF94;">Ekron</div>
-            <div style="padding:15px 10px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Legacy ERP</div>
-            <div style="padding:15px 10px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Spreadsheets</div>
-          </div>
-          <sc-for list="{{ cmp }}" as="r" hint-placeholder-count="6">
-            <div style="display:grid; grid-template-columns:minmax(180px,2.2fr) repeat(3,minmax(72px,1fr)); border-top:1px solid #E2E7E2; align-items:center;">
-              <div style="padding:14px clamp(14px,2vw,20px); font-size:14.5px; line-height:1.4; color:#16242E; font-weight:500;">{{ r.cap }}</div>
-              <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
-                <div style="padding:14px 10px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:{{ c.size }}; font-weight:{{ c.weight }}; color:{{ c.color }};">{{ c.text }}</div>
-              </sc-for>
+        <div style="border:1px solid #C9D0CA; border-radius:12px; overflow-x:auto; -webkit-overflow-scrolling:touch; background:#FFFFFF;">
+          <div style="min-width:560px;">
+            <div style="display:grid; grid-template-columns:minmax(180px,2.2fr) repeat(3,minmax(72px,1fr)); background:#16242E;">
+              <div style="padding:15px clamp(14px,2vw,20px); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#9DB0A6;">CAPABILITY</div>
+              <div style="padding:15px 10px; text-align:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:#5FCF94;">Ekron</div>
+              <div style="padding:15px 10px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Legacy ERP</div>
+              <div style="padding:15px 10px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Spreadsheets</div>
             </div>
-          </sc-for>
+            <sc-for list="{{ cmp }}" as="r" hint-placeholder-count="6">
+              <div style="display:grid; grid-template-columns:minmax(180px,2.2fr) repeat(3,minmax(72px,1fr)); border-top:1px solid #E2E7E2; align-items:center;">
+                <div style="padding:14px clamp(14px,2vw,20px); font-size:14.5px; line-height:1.4; color:#16242E; font-weight:500;">{{ r.cap }}</div>
+                <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                  <div style="padding:14px 10px; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:{{ c.size }}; font-weight:{{ c.weight }}; color:{{ c.color }};">{{ c.text }}</div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
         </div>
       </div>
     </div>
@@ -404,21 +406,23 @@
         <p style="font-size:15px; line-height:1.5; color:#5C6B72; margin:0; font-family:'IBM Plex Mono',monospace;">What the switch typically changes, for a distributor doing ~2,000 orders a month.</p>
       </div>
 
-      <div style="margin-top:clamp(32px,5vw,52px); border:1px solid #C9D0CA; border-radius:12px; overflow:hidden; background:#FFFFFF;">
-        <div style="display:grid; grid-template-columns:minmax(160px,2fr) repeat(3,minmax(82px,1fr)); background:#16242E;">
-          <div style="padding:15px clamp(14px,2vw,22px); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#9DB0A6;">METRIC</div>
-          <div style="padding:15px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Before</div>
-          <div style="padding:15px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#5FCF94;">With Ekron</div>
-          <div style="padding:15px clamp(14px,2vw,22px) 15px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Change</div>
-        </div>
-        <sc-for list="{{ outcomes }}" as="o" hint-placeholder-count="5">
-          <div data-reveal style="opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; display:grid; grid-template-columns:minmax(160px,2fr) repeat(3,minmax(82px,1fr)); border-top:1px solid #E2E7E2; align-items:baseline; font-family:'IBM Plex Mono',monospace;">
-            <div style="padding:15px clamp(14px,2vw,22px); font-size:14px; color:#16242E; font-weight:500;">{{ o.metric }}</div>
-            <div style="padding:15px 10px; text-align:right; font-size:14px; color:#8A968D;">{{ o.before }}</div>
-            <div style="padding:15px 10px; text-align:right; font-size:14.5px; color:#16242E; font-weight:600;">{{ o.after }}</div>
-            <div style="padding:15px clamp(14px,2vw,22px) 15px 10px; text-align:right; font-size:14px; font-weight:600; color:{{ o.deltaColor }};">{{ o.delta }}</div>
+      <div style="margin-top:clamp(32px,5vw,52px); border:1px solid #C9D0CA; border-radius:12px; overflow-x:auto; -webkit-overflow-scrolling:touch; background:#FFFFFF;">
+        <div style="min-width:540px;">
+          <div style="display:grid; grid-template-columns:minmax(160px,2fr) repeat(3,minmax(82px,1fr)); background:#16242E;">
+            <div style="padding:15px clamp(14px,2vw,22px); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#9DB0A6;">METRIC</div>
+            <div style="padding:15px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Before</div>
+            <div style="padding:15px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#5FCF94;">With Ekron</div>
+            <div style="padding:15px clamp(14px,2vw,22px) 15px 10px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9DB0A6;">Change</div>
           </div>
-        </sc-for>
+          <sc-for list="{{ outcomes }}" as="o" hint-placeholder-count="5">
+            <div data-reveal style="opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; display:grid; grid-template-columns:minmax(160px,2fr) repeat(3,minmax(82px,1fr)); border-top:1px solid #E2E7E2; align-items:baseline; font-family:'IBM Plex Mono',monospace;">
+              <div style="padding:15px clamp(14px,2vw,22px); font-size:14px; color:#16242E; font-weight:500;">{{ o.metric }}</div>
+              <div style="padding:15px 10px; text-align:right; font-size:14px; color:#8A968D;">{{ o.before }}</div>
+              <div style="padding:15px 10px; text-align:right; font-size:14.5px; color:#16242E; font-weight:600;">{{ o.after }}</div>
+              <div style="padding:15px clamp(14px,2vw,22px) 15px 10px; text-align:right; font-size:14px; font-weight:600; color:{{ o.deltaColor }};">{{ o.delta }}</div>
+            </div>
+          </sc-for>
+        </div>
       </div>
     </div>
   </section>

@@ -211,7 +211,7 @@
           </div>
           <div style="margin-top:18px; display:flex; gap:8px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.14); border-radius:8px; padding:6px 6px 6px 14px;">
             <input value="{{ freeText }}" onInput="{{ onFreeInput }}" onKeyDown="{{ onFreeKey }}" placeholder="Tell it what you need…" aria-label="Tell it what you need" style="flex:1; background:transparent; border:none; color:#F4F5F2; font-size:14.5px; outline:none; min-width:0;">
-            <button type="button" onClick="{{ onFreeSubmit }}" aria-label="Ask" style="flex:none; background:#1A8F57; color:#fff; border:none; font-weight:600; font-size:14px; padding:9px 16px; border-radius:6px;">Ask</button>
+            <a href="https://demo.ekron.ai/assistant" target="_blank" rel="noopener" aria-label="Ask the live assistant" style="flex:none; display:inline-flex; align-items:center; background:#1A8F57; color:#fff; font-weight:600; font-size:14px; padding:9px 16px; border-radius:6px; text-decoration:none;">Ask</a>
           </div>
         </div>
 
@@ -688,23 +688,9 @@ class Component extends DCLogic {
   confirmReturn(){ this.setState({ dConfirm:'done' }); }
   cancelReturn(){ this.setState({ dConfirm:'none', dAnswerId:null, dq:'' }); }
 
-  matchFree(txt){ const t=txt.toLowerCase();
-    if(/whatsapp|bax|pepsi|lays|aurora|order|comand/.test(t)) return 'order';
-    if(/reorder|reaprovizion|prag/.test(t)) return 'reorder';
-    if(/return|retur|invoice|factur|damage|deterior|credit/.test(t)) return 'return';
-    if(/stockout|stoc|lips|out of stock/.test(t)) return 'stockout';
-    if(/margin|marj|profit/.test(t)) return 'margin';
-    if(/top|sku|best|cele mai/.test(t)) return 'topsku';
-    if(/agent|commission|comision|target|tinta/.test(t)) return 'agents';
-    if(/dormant|30|haven|quiet|n-au mai|inactiv/.test(t)) return 'dormant';
-    return null;
-  }
   freeSubmit(){
-    const txt=(this.state.freeText||'').trim(); if(!txt) return;
-    const id=this.matchFree(txt);
-    this.timers.forEach(clearTimeout); this.timers=[]; this.finishHero();
-    if(id){ this.selectChip(id); return; }
-    this.setState({ dAnswerId:'__fallback', dq:txt, dTyping:false, dThinking:false, dRevealed:1, dConfirm:'none', freeText:'' });
+    // Free-typed questions go to the real assistant in the live demo.
+    window.open('https://demo.ekron.ai/assistant', '_blank', 'noopener');
   }
 
   buildRows(a, revealed, reduce, highlightState){

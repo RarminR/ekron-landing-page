@@ -35,6 +35,8 @@ jobs:
           cp -R assets/. _site/assets/
           # Tell GitHub Pages not to run Jekyll over the output.
           touch _site/.nojekyll
+          # Custom domain — reassert it on every Actions deploy so it can't reset.
+          echo 'ekron.ai' > _site/CNAME
           # uploads/ (raw source originals, ~22 MB) is intentionally NOT published.
 
       - name: Configure Pages

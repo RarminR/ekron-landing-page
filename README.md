@@ -25,11 +25,18 @@ deployment → Source** and select **GitHub Actions**. Then push to `main` (or
 run the workflow manually from the **Actions** tab). The site publishes to:
 
 ```
-https://rarminr.github.io/ekron-landing-page/
+https://ekron.ai/
 ```
 
-> Using a custom domain instead? Update the absolute `og:`/`canonical` URLs in
-> the `<head>` of `Ekron.dc.html` so social previews resolve correctly.
+**Custom domain (`ekron.ai`).** The domain is configured in Pages settings and
+reasserted on every deploy via the `CNAME` file the workflow writes. DNS is
+managed at Porkbun and must point the apex at GitHub Pages:
+
+- `A` `@` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+- `CNAME` `www` → `rarminr.github.io`
+
+GitHub provisions the HTTPS certificate automatically once DNS resolves (can
+take up to ~24h); then enable **Enforce HTTPS** in Settings → Pages.
 
 ## Local preview
 

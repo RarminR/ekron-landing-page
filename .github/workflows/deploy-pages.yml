@@ -32,6 +32,7 @@ jobs:
           # Ekron.dc.html is the editable source of truth; publish it as index.html.
           cp Ekron.dc.html _site/index.html
           cp support.js _site/support.js
+          cp data.js _site/data.js
           cp -R assets/. _site/assets/
           # Tell GitHub Pages not to run Jekyll over the output.
           touch _site/.nojekyll

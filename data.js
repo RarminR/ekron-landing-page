@@ -84,7 +84,7 @@ window.EKRON_DATA = (function () {
         confirm: 'Confirm', cancel: 'Cancel', runAgain: 'Run again',
         send: 'Send', edit: 'Edit', skip: 'Skip', adjust: 'Adjust',
         doIt: 'Do it', ignore: 'Ignore',
-        sample: 'Sample data — scripted walkthrough',
+        sample: 'Sample data · scripted walkthrough',
         waitNote: 'It shows you the exact change and waits for your yes.',
         liveOps: 'LIVE OPERATIONS',
         ask: 'Ask',
@@ -492,7 +492,7 @@ window.EKRON_DATA = (function () {
         confirm: 'Confirmă', cancel: 'Renunță', runAgain: 'Rulează din nou',
         send: 'Trimite', edit: 'Modifică', skip: 'Sari peste', adjust: 'Ajustează',
         doIt: 'Fă-o', ignore: 'Ignoră',
-        sample: 'Date de probă — demonstrație scriptată',
+        sample: 'Date de probă · demonstrație scriptată',
         waitNote: 'Îți arată exact ce schimbă și așteaptă da-ul tău.',
         liveOps: 'OPERAȚIUNI LIVE',
         ask: 'Întreabă',
@@ -502,7 +502,7 @@ window.EKRON_DATA = (function () {
     },
 
     m0: {
-      fallback: 'Pe asta nu o am în demo — programează un demo și întreab-o pe cifrele tale.',
+      fallback: 'Pe asta nu o am în demo. Programează un demo și întreab-o pe cifrele tale.',
       chips: [
         {
           id: 'order',

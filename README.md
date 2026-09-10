@@ -9,9 +9,15 @@ mounts the `<x-dc>` template. There is no build step for the page itself.
 ```
 Ekron.dc.html   ← editable source of truth (the page)
 support.js      ← runtime that renders it (loads React/Babel from unpkg)
+data.js         ← scripted-walkthrough data + EN/RO copy for the
+                  interactive modules (hero chat M0, tabs M1–M6)
 assets/         ← images, videos, posters, OG image, favicon (shipped)
 uploads/        ← raw source originals, NOT published (kept for reference)
 ```
+
+All interactive demos are scripted: no network calls, no model calls. Every
+conversation, order line and price they show lives in `data.js`. The RO
+strings are served with `?lang=ro` (new sections and modules only).
 
 ## Deploying to GitHub Pages
 

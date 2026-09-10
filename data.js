@@ -33,6 +33,12 @@ window.EKRON_DATA = (function () {
         ctaDemo: 'Book a demo',
         ctaSee: 'See it work'
       },
+      duo: {
+        aTitle: 'Ekron Optimizer',
+        aSub: 'Keeps your ERP and runs the work around it. See it work',
+        bTitle: 'Ekron ERP',
+        bSub: 'Replaces the whole stack. One distributor already runs on it'
+      },
       painClose: "Built with a distributor, on a distributor's data. It already knows what a route, a return and a rebate are.",
       see: {
         eyebrow: '◆ See it work',
@@ -44,7 +50,7 @@ window.EKRON_DATA = (function () {
         eyebrow: '◆ Works with the ERP you have',
         h2: 'Nothing to replace. Nothing to re-key.',
         cards: [
-          { title: 'Cloud ERP', body: "Connects through the ERP's API.", note: '[Incumbent ERP names to be confirmed. Text only, no logos.]' },
+          { title: 'Cloud ERP', body: "Connects through the ERP's API.", note: 'WinMentor, Charisma, SAP Business One, Senior ERP and other systems distributors already run.' },
           { title: 'On-premise ERP', body: 'A Docker connector runs on your own server, next to the ERP database. Only what a job needs leaves the building, encrypted.', note: '' },
           { title: 'No ERP yet', body: 'Run it on a spreadsheet. Same inbox, same agents, same rules. Move to an ERP when you outgrow it.', note: '' }
         ]
@@ -63,7 +69,7 @@ window.EKRON_DATA = (function () {
           ['Stock, pricing, invoicing, commissions', 'read from your ERP', 'native'],
           ['Reporting', 'on top of your data', '72 reports built in'],
           ['Migration', 'none', 'full history, verified by you first'],
-          ['Time to first order written', '[to confirm]', '[to confirm]']
+          ['Time to first order written', 'under a week', 'after the migration you verify']
         ]
       },
       erpSec: {
@@ -441,6 +447,12 @@ window.EKRON_DATA = (function () {
         ctaDemo: 'Programăm un demo',
         ctaSee: 'Vezi cum lucrează'
       },
+      duo: {
+        aTitle: 'Ekron Optimizer',
+        aSub: 'Îți păstrează ERP-ul și face munca din jurul lui. Vezi cum lucrează',
+        bTitle: 'Ekron ERP',
+        bSub: 'Înlocuiește tot sistemul. Un distribuitor rulează deja pe el'
+      },
       painClose: 'Construit cu un distribuitor, pe datele unui distribuitor. Știe deja ce e o rută, un retur și un rabat.',
       see: {
         eyebrow: '◆ Vezi cum lucrează',
@@ -452,7 +464,7 @@ window.EKRON_DATA = (function () {
         eyebrow: '◆ Merge cu ERP-ul pe care îl ai',
         h2: 'Nimic de înlocuit. Nimic de retastat.',
         cards: [
-          { title: 'ERP în cloud', body: 'Se conectează prin API-ul ERP-ului.', note: '[Numele ERP-urilor compatibile se confirmă. Doar text, fără logouri.]' },
+          { title: 'ERP în cloud', body: 'Se conectează prin API-ul ERP-ului.', note: 'WinMentor, Charisma, SAP Business One, Senior ERP și alte sisteme pe care distribuitorii le au deja.' },
           { title: 'ERP on-premise', body: 'Un conector Docker rulează pe serverul tău, lângă baza de date a ERP-ului. Pleacă din clădire doar ce e nevoie pentru fiecare sarcină, criptat.', note: '' },
           { title: 'Încă fără ERP', body: 'Rulează pe un spreadsheet. Același inbox, aceleași agente, aceleași reguli. Treci pe un ERP când îl depășești.', note: '' }
         ]
@@ -471,7 +483,7 @@ window.EKRON_DATA = (function () {
           ['Stoc, prețuri, facturare, comisioane', 'citite din ERP-ul tău', 'native'],
           ['Raportare', 'peste datele tale', '72 de rapoarte incluse'],
           ['Migrare', 'niciuna', 'istoricul complet, verificat întâi de tine'],
-          ['Timp până la prima comandă scrisă', '[de confirmat]', '[de confirmat]']
+          ['Timp până la prima comandă scrisă', 'sub o săptămână', 'după migrarea verificată de tine']
         ]
       },
       erpSec: {

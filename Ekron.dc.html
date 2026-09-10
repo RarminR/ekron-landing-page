@@ -152,6 +152,18 @@
     </div>
   </section>
 
+  <!-- SEE IT WORK · scripted interactive modules M1–M6 -->
+  <section id="see" data-screen-label="See it work" style="background:#FFFFFF; border-top:1px solid #DCE1DC;">
+    <div style="max-width:1200px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; max-width:680px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">{{ ui.see.eyebrow }}</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; margin:0 0 14px;">{{ ui.see.h2 }}</h2>
+        <p style="font-size:clamp(16px,1.7vw,18px); line-height:1.55; color:#5C6B72; margin:0;">{{ ui.see.lead }}</p>
+      </div>
+      <div style="margin-top:clamp(28px,4vw,40px);">{{ seeView }}</div>
+    </div>
+  </section>
+
   <!-- TRY THE ASISTENT -->
   <section id="try" data-screen-label="Try the Asistent" style="background:#16242E; position:relative;">
     <div style="max-width:1200px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
@@ -487,12 +499,14 @@ class Component extends DCLogic {
       m0:{ mode:'auto', chip:0, typed:'', caret:false, thinking:false, revealed:0, phase:'idle', doneText:'', free:'' },
       // M1–M6 tab strip
       tab:0,
+      m1:{ item:-1, phase:'idle', hl:0, lineShown:0, choice:-1, sent:false },
       // kept ERP demo (the #try section)
       dq:'', dCaret:false, dTyping:false, dThinking:false, dRevealed:0,
       dAnswerId:null, dConfirm:'none', freeText:''
     };
     this.timers=[];
     this.modTimers={};   // per-module timer registries, so one module can pause without touching the others
+    this._modFlags={ started:{}, paused:{}, interacted:{} };
     this.h = React.createElement;
 
     this.CHIPS = [
@@ -611,6 +625,16 @@ class Component extends DCLogic {
       const tryAttach = (tries) => { const el=heroCard(); if(el) this._m0IO.observe(el); else if(tries>0) setTimeout(()=>tryAttach(tries-1), 300); };
       tryAttach(30);
     }
+
+    // See-it-work: autoplay the active module at half visibility; pause off-screen.
+    const attachSee=(tries)=>{
+      const el=document.getElementById('seepanel');
+      if(el){
+        this._seeIO=new IntersectionObserver((ents)=>{ ents.forEach(en=>{ if(en.isIntersecting) this.seeVisible(); else this.seeHidden(); }); },{ threshold:0.5 });
+        this._seeIO.observe(el);
+      } else if(tries>0) setTimeout(()=>attachSee(tries-1),300);
+    };
+    attachSee(40);
 
     const tryEl = document.getElementById('try');
     if(tryEl){
@@ -815,6 +839,156 @@ class Component extends DCLogic {
         h('div',{style:this.monoSty({padding:'12px 18px 16px',fontSize:10,letterSpacing:'0.06em',color:'#B6C0B9'})}, C.sample)));
   }
 
+  /* ================= See-it-work · tabs + module lifecycle ================= */
+  modKey(i){ return 'm'+(i+1); }
+  seeTab(i){
+    if(i===this.state.tab) return;
+    this.pauseModule(this.state.tab);
+    this._modFlags.interacted[this.modKey(i)]=true;
+    this.setState({ tab:i }, ()=>this.startModule(i,true));
+  }
+  seeKey(e){
+    const n=((this.UI.see&&this.UI.see.tabs)||[]).length||6;
+    let i=this.state.tab;
+    if(e.key==='ArrowRight') i=(i+1)%n;
+    else if(e.key==='ArrowLeft') i=(i-1+n)%n;
+    else if(e.key==='Home') i=0;
+    else if(e.key==='End') i=n-1;
+    else return;
+    e.preventDefault(); this.seeTab(i);
+    const el=document.getElementById('seetab-'+i); if(el) el.focus();
+  }
+  seeVisible(){
+    const k=this.modKey(this.state.tab);
+    if(!this._modFlags.started[k]) this.startModule(this.state.tab,false);
+    else if(this._modFlags.paused[k] && !this._modFlags.interacted[k]){ this._modFlags.paused[k]=false; this.startModule(this.state.tab,false); }
+  }
+  seeHidden(){
+    const k=this.modKey(this.state.tab);
+    if(this._modFlags.started[k] && !this._modFlags.interacted[k]){ this.clearMod(k); this._modFlags.paused[k]=true; }
+  }
+  startModule(i,user){
+    const k=this.modKey(i); this._modFlags.started[k]=true; if(user) this._modFlags.interacted[k]=true;
+    if(i===0) this.m1Open(0,user);
+    else if(i===1 && this.m2Start) this.m2Start(user);
+    else if(i===2 && this.m3Start) this.m3Start(user);
+    else if(i===3 && this.m4Start) this.m4Start(user);
+    else if(i===4 && this.m5Start) this.m5Start(user);
+    else if(i===5 && this.m6Start) this.m6Start(user);
+  }
+  pauseModule(i){ this.clearMod(this.modKey(i)); }
+  seeView(){
+    const h=this.h, tabs=(this.UI.see&&this.UI.see.tabs)||[], t=this.state.tab, phone=this.state.phone;
+    const tabBtns = tabs.map((lb,i)=>h('button',{
+      key:i, id:'seetab-'+i, type:'button', role:'tab', 'aria-selected':i===t?'true':'false', 'aria-controls':'seepanel',
+      tabIndex:i===t?0:-1, onClick:()=>this.seeTab(i), onKeyDown:(e)=>this.seeKey(e),
+      style:{ flex:'none', display:'inline-flex', alignItems:'baseline', gap:8, background:'transparent', border:'none', borderBottom:'2px solid '+(i===t?'#1A8F57':'transparent'), padding:'10px 2px 12px', cursor:'pointer', fontFamily:'inherit' }},
+      h('span',{style:this.monoSty({fontSize:11,color:i===t?'#1A8F57':'#9AA8A0'})},'0'+(i+1)),
+      h('span',{style:{fontSize:14,fontWeight:600,color:i===t?'#16242E':'#5C6B72',whiteSpace:'nowrap'}},lb)));
+    let view=null;
+    if(t===0) view=this.m1View();
+    else if(t===1 && this.m2View) view=this.m2View();
+    else if(t===2 && this.m3View) view=this.m3View();
+    else if(t===3 && this.m4View) view=this.m4View();
+    else if(t===4 && this.m5View) view=this.m5View();
+    else if(t===5 && this.m6View) view=this.m6View();
+    return h('div',null,
+      h('div',{role:'tablist','aria-label':(this.UI.see&&this.UI.see.h2)||'Modules',style:{display:'flex',gap:phone?18:26,borderBottom:'1px solid #DCE1DC',overflowX:'auto',WebkitOverflowScrolling:'touch'}},tabBtns),
+      h('div',{id:'seepanel',role:'tabpanel','aria-labelledby':'seetab-'+t,style:{paddingTop:22,minHeight:phone?820:480}},view));
+  }
+
+  /* ================= M1 · Inbox → ERP ================= */
+  patchM1(p){ this.setState({ m1: Object.assign({}, this.state.m1, p) }); }
+  m1Open(idx,user){
+    this.clearMod('m1'); if(user) this._modFlags.interacted.m1=true;
+    const it=((this.D.m1||{}).items||[])[idx]; if(!it) return;
+    const amb = it.lines.findIndex(function(l){ return l.ambiguous; });
+    const base={ item:idx, phase:'reading', hl:0, lineShown:0, choice:-1, sent:false };
+    if(this.state.reduce){
+      this.setState({ m1: Object.assign(base,{ hl:99, lineShown:99, phase: amb>=0?'choice':'wait' }) });
+      return;
+    }
+    this.setState({ m1: base });
+    const n=it.lines.length;
+    const step=(k)=>{
+      this.patchM1({ hl:k, lineShown:k });
+      if(k<n) this.mt('m1',()=>step(k+1),520);
+      else this.mt('m1',()=>this.patchM1({ phase: amb>=0?'choice':'wait' }),380);
+    };
+    this.mt('m1',()=>step(1),420);
+  }
+  m1Choose(o){ this._modFlags.interacted.m1=true; this.clearMod('m1'); this.patchM1({ choice:o, phase:'wait' }); }
+  m1Confirm(){ this._modFlags.interacted.m1=true; this.clearMod('m1'); this.patchM1({ phase:'done' }); this.mt('m1',()=>this.patchM1({ sent:true }),650); }
+  m1DraftLine(l,shown,key){
+    const h=this.h;
+    return h('div',{key:key,style:Object.assign({padding:'8px 0',borderTop:'1px solid #ECEFEC',fontFamily:"'IBM Plex Mono',monospace"},this.rvSty(shown))},
+      h('div',{style:{display:'flex',justifyContent:'space-between',gap:12,alignItems:'baseline'}},
+        h('span',{style:{fontSize:13,color:'#16242E',fontWeight:600}}, l.qty+' × '+l.sku),
+        h('span',{style:{fontSize:13.5,fontWeight:600,color:'#16242E',flex:'none'}}, l.total)),
+      h('div',{style:{display:'flex',gap:10,marginTop:3,fontSize:10.5,color:'#9AA8A0',flexWrap:'wrap'}},
+        h('span',{key:'u'},l.unit),
+        l.tag?h('span',{key:'t',style:{color:'#B86A33'}},l.tag):null,
+        h('span',{key:'s',style:{color:'#1A8F57'}},'✓ '+l.stock)));
+  }
+  m1View(){
+    const h=this.h, s=this.state.m1, M=this.D.m1||{items:[]}, C=this.CM, phone=this.state.phone;
+    const it=M.items[s.item];
+    // left · inbox
+    const inbox = h('div',{key:'inbox',style:{flex:phone?'1 1 auto':'1 1 190px',minWidth:phone?0:180}},
+      h('div',{style:this.monoSty({fontSize:11,letterSpacing:'0.12em',textTransform:'uppercase',color:'#9AA8A0',margin:'0 0 10px'})},M.inboxTitle),
+      h('div',{style:{display:'flex',flexDirection:phone?'row':'column',gap:8,overflowX:phone?'auto':'visible',WebkitOverflowScrolling:'touch',paddingBottom:phone?4:0}},
+        M.items.map((item,i)=>h('button',{key:i,type:'button',onClick:()=>this.m1Open(i,true),'aria-pressed':i===s.item,style:{flex:phone?'none':'initial',textAlign:'left',background:i===s.item?'#F2F8F4':'#fff',border:'1px solid '+(i===s.item?'#1A8F57':'#DCE1DC'),borderRadius:10,padding:'10px 12px',cursor:'pointer',fontFamily:'inherit',minWidth:phone?190:0}},
+          h('div',{style:this.monoSty({fontSize:9.5,letterSpacing:'0.1em',color:i===s.item?'#1A8F57':'#9AA8A0',marginBottom:4})},item.kind+' · '+item.time),
+          h('div',{style:{fontSize:13.5,fontWeight:600,color:'#16242E'}},item.from),
+          h('div',{style:{fontSize:12.5,color:'#5C6B72',marginTop:2,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',maxWidth:phone?170:200}},item.title)))),
+      (!it)?h('p',{style:{fontSize:12.5,color:'#9AA8A0',marginTop:10,lineHeight:1.5}},M.readNote):null);
+    // middle · the message
+    let msg=null;
+    if(it){
+      if(it.id==='pdf'){
+        msg=h('div',{style:{background:'#fff',border:'1px solid #DCE1DC',borderRadius:10,padding:'14px 16px'}},
+          h('div',{style:this.monoSty({fontSize:11,color:'#9AA8A0',marginBottom:8})},it.title+' · '+it.from),
+          h('div',{style:{fontSize:12.5,color:'#5C6B72',marginBottom:10}},it.pdfNote),
+          it.lines.map((l,i)=>h('div',{key:i,style:Object.assign(this.monoSty({display:'flex',justifyContent:'space-between',gap:10,fontSize:12,color:'#16242E',padding:'6px 0',borderTop:'1px solid #ECEFEC'}),this.rvSty(i<s.lineShown||s.lineShown>=99))},
+            h('span',null,l.qty+' × '+l.sku), h('span',{style:{color:'#5C6B72'}},l.unit))));
+      } else {
+        const wa=it.id==='wa';
+        msg=h('div',null,
+          h('div',{style:this.monoSty({fontSize:11,color:'#9AA8A0',marginBottom:8})}, wa?('WhatsApp · '+it.time):(it.from+' · '+it.time)),
+          wa?null:h('div',{style:{fontSize:13.5,fontWeight:600,color:'#16242E',marginBottom:8}},it.title),
+          h('div',{style:{background:wa?'#F2F8F4':'#fff',border:'1px solid #DCE1DC',borderRadius:wa?'12px 12px 12px 4px':'10px',padding:'13px 15px',fontSize:14,lineHeight:1.7,color:'#16242E',maxWidth:wa?'92%':'none'}},
+            it.segs.map((sg,i)=> sg.hl==null ? sg.t :
+              h('span',{key:i,style:{background:(s.hl>=sg.hl+1||s.hl>=99)?'rgba(26,143,87,0.16)':'transparent',borderRadius:3,padding:'1px 2px',transition:'background .45s ease'}},sg.t))));
+      }
+    }
+    const middle = h('div',{key:'msg',style:{flex:phone?'1 1 auto':'1.15 1 240px',minWidth:phone?0:220,minHeight:phone?0:170}},msg);
+    // right · the draft order
+    const draft=[];
+    if(it){
+      draft.push(h('div',{key:'dh',style:this.monoSty({fontSize:11,letterSpacing:'0.12em',textTransform:'uppercase',color:'#9AA8A0',margin:'0 0 4px'})},M.draftTitle+' · '+it.from));
+      it.lines.forEach((l,i)=>{
+        const shown = i<s.lineShown || s.lineShown>=99;
+        if(l.ambiguous){
+          if(s.choice>=0) draft.push(this.m1DraftLine(l.options[s.choice],true,'l'+i));
+          else draft.push(h('div',{key:'amb',style:Object.assign({marginTop:10,padding:'11px 12px',background:'#F2F8F4',borderLeft:'2px solid #B86A33',borderRadius:'0 6px 6px 0'},this.rvSty(shown))},
+            h('div',{style:{fontSize:13,color:'#16242E',marginBottom:9,lineHeight:1.45}},l.ask),
+            h('div',{style:{display:'flex',gap:8,flexWrap:'wrap'}}, l.options.map((o,oi)=>this.btn(o.label,()=>this.m1Choose(oi),'outline','o'+oi)))));
+        } else draft.push(this.m1DraftLine(l,shown,'l'+i));
+      });
+      if(s.phase==='wait'){
+        draft.push(h('div',{key:'cf',style:{display:'flex',alignItems:'center',gap:12,flexWrap:'wrap',marginTop:14}}, this.btn(M.confirmLabel,()=>this.m1Confirm(),'primary','ok')));
+        draft.push(this.waitNoteEl('wn'));
+      }
+      if(s.phase==='done'){
+        draft.push(this.doneBanner('dn', M.written+it.so));
+        if(s.sent) draft.push(h('div',{key:'sn',style:this.monoSty({marginTop:10,fontSize:11.5,color:'#1A8F57'})},'✓ '+it.sentNote));
+        draft.push(h('div',{key:'ra',style:{marginTop:12}}, this.btn(C.runAgain,()=>this.m1Open(s.item,true),'ghost','ra')));
+      }
+    }
+    const right = h('div',{key:'draft','aria-live':'polite',style:{flex:phone?'1 1 auto':'1.3 1 270px',minWidth:phone?0:250,background:'#FFFFFF',border:'1px solid #DCE1DC',borderRadius:12,padding:'14px 16px',minHeight:phone?220:260}},draft);
+    return h('div',{style:{display:'flex',flexDirection:phone?'column':'row',flexWrap:phone?'nowrap':'wrap',gap:16,alignItems:phone?'stretch':'flex-start'}}, inbox, middle, right);
+  }
+
   buildRows(a, revealed, reduce, highlightState){
     if(!a || !a.rows) return [];
     return a.rows.map((r,i)=>{
@@ -843,6 +1017,7 @@ class Component extends DCLogic {
       notPhone:!s.phone,
       ui:this.UI,
       m0View:this.m0View(),
+      seeView:this.seeView(),
       demo:{
         typed:s.dq, caret:s.dCaret, typing:s.dTyping, thinking:s.dThinking,
         rows:this.buildRows(this.resolveAnswer(s.dAnswerId), s.dRevealed, s.reduce, false),

@@ -321,6 +321,8 @@ window.EKRON_DATA = (function () {
       collect: 'Collect',
       tapHint: 'Tap a stop to open it.',
       holdHint: 'Press and hold to speak the order. Simulated here.',
+      micLabel: 'Hold to speak',
+      back: 'Back to the list',
       stops: [
         {
           name: 'Market Dorobanți',
@@ -721,6 +723,8 @@ window.EKRON_DATA = (function () {
       collect: 'De încasat',
       tapHint: 'Apasă pe o oprire ca să o deschizi.',
       holdHint: 'Ține apăsat și dictează comanda. Simulat aici.',
+      micLabel: 'Ține apăsat și vorbește',
+      back: 'Înapoi la listă',
       stops: [
         {
           name: 'Market Dorobanți',

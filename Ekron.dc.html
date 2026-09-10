@@ -502,6 +502,7 @@ class Component extends DCLogic {
       m1:{ item:-1, phase:'idle', hl:0, lineShown:0, choice:-1, sent:false },
       m2:{ shown:0, flagsShown:0, open:-1, mode:'idle', editText:'', tl:0, sent:{} },
       m3:{ phase:'idle', shown:0, adjusting:false, price:'', sent:false },
+      m4:{ phase:'list', shown:0, stop:-1, rec:false, typedLen:0, done:false },
       // kept ERP demo (the #try section)
       dq:'', dCaret:false, dTyping:false, dThinking:false, dRevealed:0,
       dAnswerId:null, dConfirm:'none', freeText:''
@@ -1141,6 +1142,105 @@ class Component extends DCLogic {
     }
     const quote=h('div',{key:'qt','aria-live':'polite',style:{flex:phone?'1 1 auto':'1.6 1 360px',minWidth:phone?0:320,background:'#fff',border:'1px solid #DCE1DC',borderRadius:12,paddingBottom:12,minHeight:phone?230:260}},body);
     return h('div',{style:{display:'flex',flexDirection:phone?'column':'row',flexWrap:phone?'nowrap':'wrap',gap:18,alignItems:phone?'stretch':'flex-start'}}, email, quote);
+  }
+
+  /* ================= M4 · reps in the field ================= */
+  patchM4(p){ this.setState({ m4: Object.assign({}, this.state.m4, p) }); }
+  m4Start(user){
+    this.clearMod('m4'); if(user) this._modFlags.interacted.m4=true;
+    const M=this.D.m4||{stops:[]};
+    const base={ phase:'list', shown:0, stop:-1, rec:false, typedLen:0, done:false };
+    if(this.state.reduce){ this.setState({ m4: Object.assign(base,{ shown:99 }) }); return; }
+    this.setState({ m4: base });
+    const n=M.stops.length;
+    const step=(k)=>{ this.patchM4({ shown:k }); if(k<n) this.mt('m4',()=>step(k+1),160); };
+    this.mt('m4',()=>step(1),350);
+  }
+  m4Open(i){
+    this._modFlags.interacted.m4=true; this.clearMod('m4');
+    const reduce=this.state.reduce, M=this.D.m4||{};
+    this.patchM4({ phase:'stop', stop:i, rec:false, typedLen:reduce?(M.transcript||'').length:0, done:false });
+  }
+  m4Mic(){
+    if(this.state.m4.rec||this.state.m4.typedLen>0) return;
+    this.clearMod('m4');
+    const M=this.D.m4||{};
+    this.patchM4({ rec:true });
+    this.typeMod('m4', M.transcript||'', (txt,done)=>{
+      this.patchM4({ typedLen:txt.length });
+      if(done) this.patchM4({ rec:false });
+    });
+  }
+  m4Confirm(){ this.clearMod('m4'); this.patchM4({ done:true }); }
+  m4VoiceLinesShown(){
+    const M=this.D.m4||{}, s=this.state.m4, tr=M.transcript||'';
+    if(this.state.reduce||s.typedLen>=tr.length) return (M.voiceLines||[]).length;
+    // a line lands as each spoken segment (comma-separated) completes
+    const bounds=[]; let idx=0;
+    for(let i=0;i<(M.voiceLines||[]).length-1;i++){ idx=tr.indexOf(',',idx+1); bounds.push(idx>=0?idx:tr.length); }
+    bounds.push(tr.length);
+    return bounds.filter(bd=>s.typedLen>=bd).length;
+  }
+  m4View(){
+    const h=this.h, s=this.state.m4, M=this.D.m4||{stops:[]}, C=this.CM, phone=this.state.phone;
+    const inner=[];
+    if(s.phase==='list'){
+      inner.push(h('div',{key:'rk',style:this.monoSty({fontSize:10,letterSpacing:'0.08em',color:'#9AA8A0',textTransform:'uppercase',padding:'12px 16px 8px'})},M.ranked));
+      (M.stops||[]).forEach((st,i)=>{
+        inner.push(h('button',{key:i,type:'button',onClick:()=>this.m4Open(i),style:Object.assign({display:'flex',gap:11,alignItems:'baseline',width:'100%',textAlign:'left',background:'transparent',border:'none',borderTop:'1px solid #ECEFEC',padding:'12px 16px',cursor:'pointer',fontFamily:'inherit'},this.rvSty(i<s.shown||s.shown>=99))},
+          h('span',{style:this.monoSty({fontSize:12,color:'#B86A33',fontWeight:600,flex:'none'})},'0'+(i+1)),
+          h('span',{style:{minWidth:0}},
+            h('span',{style:{display:'block',fontSize:14,fontWeight:600,color:'#16242E'}},st.name),
+            h('span',{style:this.monoSty({display:'block',fontSize:10.5,color:st.reasonTone==='neg'?'#B86A33':'#5C6B72',marginTop:3})},st.reason))));
+      });
+      inner.push(h('div',{key:'th',style:this.monoSty({fontSize:10,color:'#9AA8A0',padding:'10px 16px 14px'})},M.tapHint));
+    } else {
+      const st=M.stops[s.stop]||{bring:[]};
+      inner.push(h('div',{key:'bk',style:{padding:'10px 16px 0'}},
+        h('button',{type:'button',onClick:()=>{this.clearMod('m4');this.patchM4({phase:'list',stop:-1,typedLen:0,rec:false,done:false,shown:99});},style:{background:'transparent',border:'none',cursor:'pointer',padding:0,fontFamily:"'IBM Plex Mono',monospace",fontSize:11,color:'#5C6B72'}},'← '+M.back)));
+      inner.push(h('div',{key:'sn',style:{padding:'10px 16px 0'}},
+        h('div',{style:{fontSize:15.5,fontWeight:600,color:'#16242E',fontFamily:"'Space Grotesk',sans-serif"}},st.name),
+        h('div',{style:this.monoSty({fontSize:10.5,color:st.reasonTone==='neg'?'#B86A33':'#5C6B72',marginTop:3})},st.reason)));
+      if(st.collectNote) inner.push(h('div',{key:'cn',style:{margin:'10px 16px 0',padding:'9px 11px',background:'#F4F5F2',borderLeft:'2px solid #B86A33',borderRadius:'0 6px 6px 0',fontFamily:"'IBM Plex Mono',monospace",fontSize:11,color:'#16242E'}},st.collectNote));
+      inner.push(h('div',{key:'bh',style:this.monoSty({fontSize:10,letterSpacing:'0.08em',color:'#9AA8A0',textTransform:'uppercase',padding:'14px 16px 4px'})},M.bring));
+      (st.bring||[]).forEach((bi,i)=>{
+        inner.push(h('div',{key:'b'+i,style:{padding:'7px 16px 0'}},
+          h('div',{style:this.monoSty({fontSize:12,fontWeight:600,color:'#16242E'})},bi.sku),
+          h('div',{style:{fontSize:12,color:'#5C6B72',marginTop:1,lineHeight:1.45}},bi.why)));
+      });
+      // voice order
+      const tr=M.transcript||'', tl=s.typedLen, linesShown=this.m4VoiceLinesShown();
+      inner.push(h('div',{key:'vo',style:{margin:'14px 16px 0',borderTop:'1px solid #DCE1DC',paddingTop:12}},
+        (tl===0)?h('button',{type:'button',onMouseDown:()=>this.m4Mic(),onTouchStart:()=>this.m4Mic(),onKeyDown:(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();this.m4Mic();}},style:{width:'100%',background:'#F2F8F4',border:'1px dashed #1A8F57',borderRadius:10,padding:'12px 14px',cursor:'pointer',fontFamily:"'IBM Plex Mono',monospace",fontSize:12,color:'#1A8F57',fontWeight:600}},'⏺ '+M.micLabel):null,
+        (tl===0)?h('p',{style:{fontSize:10.5,color:'#9AA8A0',margin:'8px 0 0',fontFamily:"'IBM Plex Mono',monospace"}},M.holdHint):null,
+        (tl>0)?h('div',null,
+          h('div',{style:this.monoSty({fontSize:10,letterSpacing:'0.08em',color:s.rec?'#B86A33':'#9AA8A0',textTransform:'uppercase',marginBottom:6})}, s.rec?'● REC':'✓'),
+          h('div',{style:{fontSize:13,lineHeight:1.55,color:'#16242E',fontStyle:'italic'}},'“'+tr.slice(0,tl)+(tl<tr.length?'”':'”')),
+          h('div',{style:{marginTop:8}},
+            (M.voiceLines||[]).map((l,i)=>h('div',{key:i,style:Object.assign({padding:'7px 0',borderTop:'1px solid #ECEFEC',fontFamily:"'IBM Plex Mono',monospace"},this.rvSty(i<linesShown))},
+              h('div',{style:{display:'flex',justifyContent:'space-between',gap:10,alignItems:'baseline'}},
+                h('span',{style:{fontSize:12,color:'#16242E',fontWeight:600}},l.qty+' × '+l.sku),
+                h('span',{style:{fontSize:12,fontWeight:600,color:'#16242E'}},l.total)),
+              h('div',{style:{display:'flex',gap:8,fontSize:10,color:'#9AA8A0',marginTop:2}},h('span',null,l.unit),l.tag?h('span',{style:{color:'#B86A33'}},l.tag):null))))):null));
+      if(tl>=tr.length&&tl>0&&!s.done){
+        inner.push(h('div',{key:'cf',style:{padding:'12px 16px 4px'}},this.btn(M.confirmLabel,()=>this.m4Confirm(),'primary','ok')));
+        inner.push(h('div',{key:'wn',style:{padding:'0 16px'}},this.waitNoteEl('wn4')));
+      }
+      if(s.done){
+        inner.push(h('div',{key:'dn',style:{padding:'12px 16px 0'}},this.doneBanner('dnb',M.done)));
+        inner.push(h('div',{key:'ra',style:{padding:'10px 16px 4px'}},this.btn(C.runAgain,()=>this.m4Open(s.stop),'ghost','ra')));
+      }
+    }
+    // the phone-shaped card
+    return h('div',{style:{display:'flex',justifyContent:phone?'stretch':'flex-start',gap:24,flexWrap:'wrap'}},
+      h('div',{'aria-live':'polite',style:{width:phone?'100%':348,maxWidth:'100%',background:'#fff',border:'1px solid #DCE1DC',borderRadius:26,boxShadow:'0 18px 44px rgba(8,18,24,0.12)',overflow:'hidden',minHeight:430,paddingBottom:14}},
+        h('div',{style:{display:'flex',alignItems:'center',gap:8,padding:'12px 16px',background:'#16242E'}},
+          h('span',{style:{width:8,height:8,background:'#1A8F57',borderRadius:'50%',display:'inline-block'}}),
+          h('span',{style:this.monoSty({fontSize:11,letterSpacing:'0.08em',color:'#F4F5F2'})},M.title)),
+        inner),
+      phone?null:h('div',{style:{flex:'1 1 220px',maxWidth:420,paddingTop:8}},
+        h('p',{style:{fontSize:13.5,lineHeight:1.6,color:'#5C6B72',margin:0}},M.ranked+'.'),
+        h('p',{style:{fontSize:13.5,lineHeight:1.6,color:'#5C6B72',margin:'10px 0 0'}},M.tapHint+' '+M.holdHint)));
   }
 
   buildRows(a, revealed, reduce, highlightState){

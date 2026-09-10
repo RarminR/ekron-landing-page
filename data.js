@@ -86,7 +86,10 @@ window.EKRON_DATA = (function () {
         doIt: 'Do it', ignore: 'Ignore',
         sample: 'Sample data — scripted walkthrough',
         waitNote: 'It shows you the exact change and waits for your yes.',
-        liveOps: 'LIVE OPERATIONS'
+        liveOps: 'LIVE OPERATIONS',
+        ask: 'Ask',
+        askPlaceholder: 'Tell it what you need…',
+        cancelled: 'Nothing written. Pick another prompt.'
       }
     },
 
@@ -488,7 +491,10 @@ window.EKRON_DATA = (function () {
         doIt: 'Fă-o', ignore: 'Ignoră',
         sample: 'Date de probă — demonstrație scriptată',
         waitNote: 'Îți arată exact ce schimbă și așteaptă da-ul tău.',
-        liveOps: 'OPERAȚIUNI LIVE'
+        liveOps: 'OPERAȚIUNI LIVE',
+        ask: 'Întreabă',
+        askPlaceholder: 'Spune-i ce ai nevoie…',
+        cancelled: 'Nimic scris. Alege alt exemplu.'
       }
     },
 

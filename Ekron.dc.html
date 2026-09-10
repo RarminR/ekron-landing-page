@@ -164,13 +164,72 @@
     </div>
   </section>
 
+  <!-- WORKS WITH THE ERP YOU HAVE -->
+  <section id="works" data-screen-label="Works with your ERP" style="background:#F4F5F2;">
+    <div style="max-width:1200px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; max-width:680px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">{{ ui.works.eyebrow }}</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; margin:0;">{{ ui.works.h2 }}</h2>
+      </div>
+      <div style="margin-top:clamp(34px,5vw,56px); display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:1px; background:#DCE1DC; border:1px solid #DCE1DC; border-radius:14px; overflow:hidden;">
+        <sc-for list="{{ worksCards }}" as="wc" hint-placeholder-count="3">
+          <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; background:#FFFFFF; padding:clamp(24px,3vw,32px);">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:14px;">{{ wc.num }}</div>
+            <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px; margin:0 0 9px; letter-spacing:-0.01em;">{{ wc.title }}</h3>
+            <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">{{ wc.body }}</p>
+            <sc-if value="{{ wc.note }}" hint-placeholder-val="">
+              <p style="margin:10px 0 0; font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:1.55; color:#8A968D;">{{ wc.note }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO WAYS TO RUN EKRON -->
+  <section id="ways" data-screen-label="Two ways" style="background:#FFFFFF; border-top:1px solid #DCE1DC;">
+    <div style="max-width:1100px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; max-width:680px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">{{ ui.ways.eyebrow }}</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; margin:0;">{{ ui.ways.h2 }}</h2>
+      </div>
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; margin-top:clamp(32px,5vw,52px); border:1px solid #C9D0CA; border-radius:12px; overflow-x:auto; -webkit-overflow-scrolling:touch; background:#FFFFFF;">
+        <div style="min-width:560px;">
+          <div style="display:grid; grid-template-columns:minmax(200px,2fr) repeat(2,minmax(140px,1fr)); background:#16242E;">
+            <div style="padding:15px clamp(14px,2vw,22px); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#9DB0A6;">{{ ui.ways.cols.0 }}</div>
+            <div style="padding:15px 12px; text-align:left; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:#5FCF94;">{{ ui.ways.cols.1 }}</div>
+            <div style="padding:15px clamp(14px,2vw,22px) 15px 12px; text-align:left; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:#F4F5F2;">{{ ui.ways.cols.2 }}</div>
+          </div>
+          <sc-for list="{{ waysRows }}" as="wr" hint-placeholder-count="10">
+            <div style="display:grid; grid-template-columns:minmax(200px,2fr) repeat(2,minmax(140px,1fr)); border-top:1px solid #E2E7E2; align-items:baseline;">
+              <div style="padding:14px clamp(14px,2vw,22px); font-size:14.5px; line-height:1.4; color:#16242E; font-weight:500;">{{ wr.cap }}</div>
+              <div style="padding:14px 12px; font-family:'IBM Plex Mono',monospace; font-size:13px; line-height:1.45; font-weight:{{ wr.optW }}; color:{{ wr.optC }};">{{ wr.opt }}</div>
+              <div style="padding:14px clamp(14px,2vw,22px) 14px 12px; font-family:'IBM Plex Mono',monospace; font-size:13px; line-height:1.45; font-weight:{{ wr.erpW }}; color:{{ wr.erpC }};">{{ wr.erp }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EKRON ERP · the full replacement, kept as the second path -->
+  <section id="erp" data-screen-label="Ekron ERP intro" style="background:#F4F5F2; border-top:1px solid #DCE1DC;">
+    <div style="max-width:1200px; margin:0 auto; padding:clamp(56px,8vw,96px) clamp(20px,5vw,40px) clamp(8px,2vw,16px);">
+      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; max-width:720px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">{{ ui.erpSec.eyebrow }}</div>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; margin:0 0 14px;">{{ ui.erpSec.h2 }}</h2>
+        <p style="font-size:clamp(16px,1.7vw,18px); line-height:1.55; color:#5C6B72; margin:0 0 clamp(40px,6vw,64px);">{{ ui.erpSec.lead }}</p>
+      </div>
+    </div>
+  </section>
+
   <!-- TRY THE ASISTENT -->
   <section id="try" data-screen-label="Try the Asistent" style="background:#16242E; position:relative;">
     <div style="max-width:1200px; margin:0 auto; padding:clamp(64px,9vw,118px) clamp(20px,5vw,40px);">
       <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; max-width:640px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#5FCF94; margin-bottom:18px;">◆ Try it yourself</div>
         <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; color:#F4F5F2; margin:0 0 14px;">Ask it to do something real.</h2>
-        <p style="font-size:clamp(16px,1.7vw,18px); line-height:1.55; color:#AFBEB6; margin:0;">Pick a job, or type your own. Ekron drafts the exact change and waits for your yes — nothing is written to your data without your confirmation.</p>
+        <p style="font-size:clamp(16px,1.7vw,18px); line-height:1.55; color:#AFBEB6; margin:0;">Pick a job, or type your own. Ekron drafts the exact change and waits for your yes.</p>
       </div>
 
       <div style="margin-top:clamp(34px,5vw,52px); display:flex; flex-wrap:wrap; gap:clamp(20px,3vw,34px); align-items:flex-start;">
@@ -266,11 +325,6 @@
         </div>
       </div>
 
-      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; margin-top:clamp(28px,4vw,40px); display:flex; gap:14px; align-items:flex-start; max-width:760px;">
-        <span style="width:11px;height:11px;background:#1A8F57;transform:rotate(45deg);flex:none;margin-top:6px;"></span>
-        <p style="margin:0; font-size:clamp(15px,1.7vw,18px); line-height:1.5; color:#E7EDE9; font-weight:500;">No surprise edits, ever. Every change is shown before it's written.</p>
-      </div>
-
       <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; transition-delay:90ms; margin-top:clamp(26px,4vw,38px); display:flex; flex-wrap:wrap; gap:16px; align-items:center;">
         <a href="https://demo.ekron.ai/dashboard" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:9px; background:#1A8F57; color:#fff; font-weight:600; font-size:15.5px; padding:14px 26px; border-radius:7px; text-decoration:none; box-shadow:0 6px 22px rgba(26,143,87,0.35);">Open the live demo <span aria-hidden="true">→</span></a>
         <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em; color:#9DB0A6;">The full system, sample data — no signup</span>
@@ -284,7 +338,7 @@
       <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; max-width:680px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#1A8F57; margin-bottom:18px;">◆ Why Ekron</div>
         <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(28px,4vw,46px); line-height:1.08; letter-spacing:-0.02em; margin:0 0 14px;">Better than the system you have now.</h2>
-        <p style="font-size:clamp(16px,1.7vw,18px); line-height:1.55; color:#5C6B72; margin:0;">Not another module bolted onto your old ERP. One system that replaces the whole stack, understands distribution, and acts only when you say so.</p>
+        <p style="font-size:clamp(16px,1.7vw,18px); line-height:1.55; color:#5C6B72; margin:0;">One system that replaces the whole stack and understands distribution.</p>
       </div>
 
       <div style="margin-top:clamp(34px,5vw,56px); display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr)); gap:1px; background:#DCE1DC; border:1px solid #DCE1DC; border-radius:14px; overflow:hidden;">
@@ -301,19 +355,13 @@
         <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:170ms; background:#FFFFFF; padding:clamp(24px,3vw,32px);">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:14px;">03</div>
           <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px; margin:0 0 9px; letter-spacing:-0.01em;">You run it by talking to it.</h3>
-          <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">No menus to hunt, no report to export. Ask in plain language; it answers from live operations and drafts any change for your approval.</p>
+          <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">No menus to hunt, no report to export. Ask in plain language; it answers from live operations.</p>
         </div>
         <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:255ms; background:#FFFFFF; padding:clamp(24px,3vw,32px);">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:14px;">04</div>
           <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px; margin:0 0 9px; letter-spacing:-0.01em;">It acts only on your yes.</h3>
-          <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">Every edit is shown before it's written — the exact change, waiting for your confirmation. No black-box moves on your data.</p>
+          <p style="margin:0; color:#5C6B72; font-size:15px; line-height:1.55;">Every edit is shown before it's written. No black-box moves on your data.</p>
         </div>
-      </div>
-
-      <!-- ANCHOR STATEMENT -->
-      <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease; margin-top:clamp(40px,6vw,72px); border-left:3px solid #1A8F57; padding:4px 0 4px clamp(20px,3vw,32px); max-width:920px;">
-        <p style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(22px,3vw,34px); line-height:1.2; letter-spacing:-0.02em; color:#16242E; margin:0;">A distributor runs their entire business on Ekron today — with the old ERP switched off.</p>
-        <p style="margin:12px 0 0; font-family:'IBM Plex Mono',monospace; font-size:clamp(13px,1.5vw,15px); letter-spacing:0.02em; color:#5C6B72;">Not a pilot. Not a trial alongside the old system. Replaced.</p>
       </div>
 
       <!-- COMPARISON TABLE -->
@@ -368,7 +416,7 @@
         </div>
       </div>
       <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; transition-delay:120ms; margin:clamp(36px,5vw,56px) auto 0; max-width:640px;">
-        <p style="margin:0; font-size:clamp(15px,1.7vw,18px); line-height:1.6; color:#C3CEC8;">Not a trial running next to the old system. Seventeen years of history moved over, the legacy ERP switched off, every order, return, price list and commission now running on Ekron.</p>
+        <p style="margin:0; font-size:clamp(15px,1.7vw,18px); line-height:1.6; color:#C3CEC8;">Seventeen years of history moved over, the legacy ERP switched off, every order, return, price list and commission now running on Ekron.</p>
       </div>
     </div>
   </section>
@@ -431,7 +479,7 @@
           <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:85ms; border:1px solid #DCE1DC; border-left:3px solid #1A8F57; border-radius:0 12px 12px 0; padding:clamp(22px,3vw,30px); background:#F4F5F2;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:12px;">STEP 02</div>
             <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:21px; margin:0 0 9px; letter-spacing:-0.01em;">You verify your own numbers inside Ekron.</h3>
-            <p style="margin:0; color:#5C6B72; font-size:15.5px; line-height:1.55;">Before anything depends on it, you check your real data in the live system — open balances, last month's commissions, a price list you know by heart. You confirm it's right. We don't ask you to trust it; we ask you to check it.</p>
+            <p style="margin:0; color:#5C6B72; font-size:15.5px; line-height:1.55;">You check your real data in the live system — open balances, last month's commissions, a price list you know by heart. We don't ask you to trust it; we ask you to check it.</p>
           </div>
           <div data-reveal style="opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; transition-delay:170ms; border:1px solid #DCE1DC; border-left:3px solid #1A8F57; border-radius:0 12px 12px 0; padding:clamp(22px,3vw,30px); background:#F4F5F2;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1A8F57; margin-bottom:12px;">STEP 03</div>
@@ -457,13 +505,13 @@
     <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(16,29,37,0.86) 0%, rgba(16,29,37,0.72) 50%, rgba(16,29,37,0.88) 100%);"></div>
     <div style="position:relative; max-width:880px; margin:0 auto; padding:clamp(72px,11vw,140px) clamp(20px,5vw,40px); text-align:center;">
       <div data-reveal style="opacity:0; transform:translateY(18px); transition:opacity .65s ease, transform .65s ease;">
-        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(30px,4.6vw,56px); line-height:1.08; letter-spacing:-0.025em; color:#F4F5F2; margin:0 0 18px; max-width:18ch; margin-left:auto; margin-right:auto;">See Ekron run on your numbers.</h2>
-        <p style="font-size:clamp(16px,1.8vw,19px); line-height:1.5; color:#C3CEC8; margin:0 auto 36px; max-width:34ch;">Bring a question from your own business. We'll answer it live.</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(30px,4.6vw,56px); line-height:1.08; letter-spacing:-0.025em; color:#F4F5F2; margin:0 0 18px; max-width:18ch; margin-left:auto; margin-right:auto;">{{ ui.cta.h2 }}</h2>
+        <p style="font-size:clamp(16px,1.8vw,19px); line-height:1.5; color:#C3CEC8; margin:0 auto 36px; max-width:44ch;">{{ ui.cta.sub }}</p>
         <div style="display:flex; flex-wrap:wrap; gap:14px; justify-content:center;">
-          <a href="#cta" style="display:inline-flex; align-items:center; background:#1A8F57; color:#fff; font-weight:600; font-size:16.5px; padding:16px 30px; border-radius:8px; text-decoration:none; box-shadow:0 6px 24px rgba(26,143,87,0.4);">Book a demo</a>
-          <a href="https://demo.ekron.ai/dashboard" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; color:#E7EDE9; font-weight:600; font-size:16.5px; padding:16px 26px; border-radius:8px; text-decoration:none; border:1px solid rgba(231,237,233,0.32);">Try the live demo <span aria-hidden="true">→</span></a>
+          <a href="#cta" style="display:inline-flex; align-items:center; background:#1A8F57; color:#fff; font-weight:600; font-size:16.5px; padding:16px 30px; border-radius:8px; text-decoration:none; box-shadow:0 6px 24px rgba(26,143,87,0.4);">{{ ui.cta.book }}</a>
+          <a href="https://demo.ekron.ai/dashboard" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; color:#E7EDE9; font-weight:600; font-size:16.5px; padding:16px 26px; border-radius:8px; text-decoration:none; border:1px solid rgba(231,237,233,0.32);">{{ ui.cta.live }} <span aria-hidden="true">→</span></a>
         </div>
-        <p style="margin:30px auto 0; font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.04em; color:#9DB0A6; max-width:48ch; line-height:1.6;">A 30-minute walkthrough — your data or ours. No slides, just the system.</p>
+        <p style="margin:30px auto 0; font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.04em; color:#9DB0A6; max-width:48ch; line-height:1.6;">{{ ui.cta.fine }}</p>
       </div>
     </div>
   </section>
@@ -475,7 +523,7 @@
         <span style="width:12px; height:12px; background:#1A8F57; transform:rotate(45deg); display:inline-block; border-radius:2px;"></span>
         <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; letter-spacing:-0.02em; color:#F4F5F2;">Ekron</span>
       </div>
-      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.04em; color:#7E8F86; flex:1 1 300px; text-align:center; min-width:200px;">The ERP for FMCG wholesale distribution — that you can just ask.</div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.04em; color:#7E8F86; flex:1 1 300px; text-align:center; min-width:200px;">{{ ui.footer }}</div>
       <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#7E8F86;">© 2026 Ekron</div>
     </div>
   </footer>
@@ -1397,6 +1445,13 @@ class Component extends DCLogic {
       ui:this.UI,
       m0View:this.m0View(),
       seeView:this.seeView(),
+      worksCards:((this.UI.works||{}).cards||[]).map((c,i)=>({ num:'0'+(i+1), title:c.title, body:c.body, note:c.note||'' })),
+      waysRows:((this.UI.ways||{}).rows||[]).map((r)=>{
+        const cell=(v)=>{ const ph=v.charAt(0)==='['; const yes=v==='yes'||v==='da';
+          return { text:v, w:yes?600:(ph?400:500), c:ph?'#8A968D':(yes?'#1A8F57':'#16242E') }; };
+        const o=cell(r[1]), e=cell(r[2]);
+        return { cap:r[0], opt:o.text, optW:o.w, optC:o.c, erp:e.text, erpW:e.w, erpC:e.c };
+      }),
       demo:{
         typed:s.dq, caret:s.dCaret, typing:s.dTyping, thinking:s.dThinking,
         rows:this.buildRows(this.resolveAnswer(s.dAnswerId), s.dRevealed, s.reduce, false),

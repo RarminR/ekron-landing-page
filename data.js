@@ -309,6 +309,7 @@ window.EKRON_DATA = (function () {
       ],
       belowFloor: 'below floor',
       adjustHint: 'Type a new price for the Aqua Carpatica line. The margin recomputes as you type.',
+      sendQuote: 'Send quote',
       sent: 'Quote sent · if they accept, it becomes an order in ' + ERP_EN + ' without re-typing.'
     },
 
@@ -709,6 +710,7 @@ window.EKRON_DATA = (function () {
       ],
       belowFloor: 'sub prag',
       adjustHint: 'Scrie un preț nou pentru linia Aqua Carpatica. Marja se recalculează pe măsură ce scrii.',
+      sendQuote: 'Trimite oferta',
       sent: 'Ofertă trimisă · dacă acceptă, devine comandă în ' + ERP_RO + ' fără retastare.'
     },
 

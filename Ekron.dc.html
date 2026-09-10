@@ -503,6 +503,8 @@ class Component extends DCLogic {
       m2:{ shown:0, flagsShown:0, open:-1, mode:'idle', editText:'', tl:0, sent:{} },
       m3:{ phase:'idle', shown:0, adjusting:false, price:'', sent:false },
       m4:{ phase:'list', shown:0, stop:-1, rec:false, typedLen:0, done:false },
+      m5:{ ordShown:0, collapsed:false, seg:0, drvShown:0, sent:false },
+      m6:{ postShown:0, acted:{}, eodShown:0 },
       // kept ERP demo (the #try section)
       dq:'', dCaret:false, dTyping:false, dThinking:false, dRevealed:0,
       dAnswerId:null, dConfirm:'none', freeText:''
@@ -1241,6 +1243,129 @@ class Component extends DCLogic {
       phone?null:h('div',{style:{flex:'1 1 220px',maxWidth:420,paddingTop:8}},
         h('p',{style:{fontSize:13.5,lineHeight:1.6,color:'#5C6B72',margin:0}},M.ranked+'.'),
         h('p',{style:{fontSize:13.5,lineHeight:1.6,color:'#5C6B72',margin:'10px 0 0'}},M.tapHint+' '+M.holdHint)));
+  }
+
+  /* ================= M5 · dispatch ================= */
+  patchM5(p){ this.setState({ m5: Object.assign({}, this.state.m5, p) }); }
+  m5Start(user){
+    this.clearMod('m5'); if(user) this._modFlags.interacted.m5=true;
+    const M=this.D.m5||{orders:[],driverStops:[]};
+    const base={ ordShown:0, collapsed:false, seg:0, drvShown:0, sent:false };
+    if(this.state.reduce){ this.setState({ m5: Object.assign(base,{ ordShown:99, collapsed:true, seg:99, drvShown:99 }) }); return; }
+    this.setState({ m5: base });
+    const nOrd=M.orders.length, nSeg=13, nDrv=M.driverStops.length;
+    const drv=(k)=>{ this.patchM5({ drvShown:k }); if(k<nDrv) this.mt('m5',()=>drv(k+1),140); };
+    const seg=(k)=>{ this.patchM5({ seg:k }); if(k<nSeg) this.mt('m5',()=>seg(k+1),120); else this.mt('m5',()=>drv(1),300); };
+    const ord=(k)=>{ this.patchM5({ ordShown:k }); if(k<nOrd) this.mt('m5',()=>ord(k+1),120); else this.mt('m5',()=>{ this.patchM5({ collapsed:true }); this.mt('m5',()=>seg(1),500); },600); };
+    this.mt('m5',()=>ord(1),300);
+  }
+  m5Map(){
+    const h=this.h, s=this.state.m5;
+    const v1=[[28,180],[70,140],[120,152],[160,108],[210,122],[250,78],[290,100],[302,150],[252,172],[196,186]];
+    const v2=[[28,180],[62,206],[112,212],[162,206],[204,190]];
+    const els=[];
+    // depot
+    els.push(h('rect',{key:'dep',x:23,y:175,width:10,height:10,fill:'#16242E'}));
+    let segIdx=0;
+    const drawRoute=(pts,color,name,numbered)=>{
+      for(let i=1;i<pts.length;i++){
+        segIdx++;
+        const on=segIdx<=s.seg||s.seg>=99;
+        els.push(h('line',{key:name+'l'+i,x1:pts[i-1][0],y1:pts[i-1][1],x2:pts[i][0],y2:pts[i][1],stroke:color,strokeWidth:1.5,opacity:on?0.85:0,style:{transition:'opacity .3s ease'}}));
+        els.push(h('circle',{key:name+'c'+i,cx:pts[i][0],cy:pts[i][1],r:3.4,fill:color,opacity:on?1:0,style:{transition:'opacity .3s ease'}}));
+        if(numbered&&on) els.push(h('text',{key:name+'t'+i,x:pts[i][0]+6,y:pts[i][1]+3,fontFamily:"'IBM Plex Mono',monospace",fontSize:8.5,fill:'#5C6B72'},String(i).padStart(2,'0')));
+      }
+    };
+    drawRoute(v1,'#16242E','v1',false);
+    drawRoute(v2,'#1A8F57','v2',true);
+    return h('svg',{viewBox:'0 0 340 230',width:'100%',height:'auto',role:'img','aria-label':(this.D.m5||{}).mapNote,style:{display:'block',maxHeight:240}},els);
+  }
+  m5View(){
+    const h=this.h, s=this.state.m5, M=this.D.m5||{orders:[],vans:[],driverStops:[]}, C=this.CM, phone=this.state.phone;
+    // left · orders list collapsing into two route cards
+    const left=[];
+    left.push(h('div',{key:'oh',style:this.monoSty({fontSize:11,letterSpacing:'0.12em',textTransform:'uppercase',color:'#9AA8A0',margin:'0 0 3px'})},M.readyHead));
+    left.push(h('div',{key:'os',style:{fontSize:12,color:'#9AA8A0',marginBottom:10}},M.readySub));
+    if(!s.collapsed){
+      left.push(h('div',{key:'ol'},(M.orders||[]).map((o,i)=>h('div',{key:i,style:Object.assign(this.monoSty({fontSize:12,color:'#16242E',padding:'7px 2px',borderTop:'1px solid #ECEFEC'}),this.rvSty(i<s.ordShown||s.ordShown>=99))},o))));
+    } else {
+      left.push(h('div',{key:'vc',style:{display:'flex',flexDirection:'column',gap:10}},(M.vans||[]).map((v,i)=>
+        h('div',{key:i,style:Object.assign({background:'#fff',border:'1px solid #DCE1DC',borderLeft:'3px solid '+(i===0?'#16242E':'#1A8F57'),borderRadius:'0 10px 10px 0',padding:'12px 14px'},this.rvSty(true))},
+          h('div',{style:this.monoSty({fontSize:12.5,fontWeight:600,color:'#16242E'})},v.name),
+          h('div',{style:this.monoSty({fontSize:11,color:'#5C6B72',marginTop:4})},v.stops+' · '+v.km+' · '+v.back)))));
+    }
+    // right · abstract map + driver view
+    const right=[];
+    right.push(h('div',{key:'map',style:{background:'#fff',border:'1px solid #DCE1DC',borderRadius:12,padding:'12px 14px 6px'}},
+      this.m5Map(),
+      h('div',{style:this.monoSty({fontSize:9.5,color:'#9AA8A0',padding:'4px 2px 6px'})},M.mapNote)));
+    if(s.drvShown>0||s.seg>=99){
+      right.push(h('div',{key:'drv',style:{marginTop:12,background:'#fff',border:'1px solid #DCE1DC',borderRadius:12,padding:'12px 14px'}},
+        h('div',{style:this.monoSty({fontSize:11,letterSpacing:'0.12em',textTransform:'uppercase',color:'#9AA8A0',marginBottom:6})},M.driverHead),
+        (M.driverStops||[]).map((d,i)=>h('div',{key:i,style:Object.assign({display:'flex',gap:10,alignItems:'baseline',padding:'8px 0',borderTop:'1px solid #ECEFEC'},this.rvSty(i<s.drvShown||s.drvShown>=99))},
+          h('span',{style:this.monoSty({fontSize:11,color:'#1A8F57',fontWeight:600,flex:'none'})},d.n),
+          h('span',{style:{minWidth:0,flex:1}},
+            h('span',{style:{display:'block',fontSize:13,fontWeight:600,color:'#16242E'}},d.name),
+            h('span',{style:this.monoSty({display:'block',fontSize:10.5,color:'#9AA8A0',marginTop:2})},d.addr+' · '+d.unload)),
+          d.collect?h('span',{style:this.monoSty({fontSize:10.5,color:'#B86A33',fontWeight:600,flex:'none'})},d.collect):null))));
+      if(!s.sent){
+        right.push(h('div',{key:'sb',style:{display:'flex',alignItems:'center',gap:12,flexWrap:'wrap',marginTop:12}},this.btn(M.sendLabel,()=>{this._modFlags.interacted.m5=true;this.clearMod('m5');this.patchM5({sent:true});},'primary','snd')));
+        right.push(this.waitNoteEl('wn5'));
+      } else {
+        right.push(this.doneBanner('dn5',M.done));
+        right.push(h('div',{key:'ra',style:{marginTop:10}},this.btn(C.runAgain,()=>this.m5Start(true),'ghost','ra')));
+      }
+    }
+    return h('div',{'aria-live':'polite',style:{display:'flex',flexDirection:phone?'column':'row',flexWrap:phone?'nowrap':'wrap',gap:18,alignItems:phone?'stretch':'flex-start'}},
+      h('div',{key:'l',style:{flex:phone?'1 1 auto':'1 1 240px',minWidth:phone?0:220,minHeight:phone?160:230}},left),
+      h('div',{key:'r',style:{flex:phone?'1 1 auto':'1.5 1 340px',minWidth:phone?0:300}},right));
+  }
+
+  /* ================= M6 · it tells you when something is wrong ================= */
+  patchM6(p){ this.setState({ m6: Object.assign({}, this.state.m6, p) }); }
+  m6Start(user){
+    this.clearMod('m6'); if(user) this._modFlags.interacted.m6=true;
+    const M=this.D.m6||{posts:[],eod:[]};
+    const base={ postShown:0, acted:{}, eodShown:0 };
+    if(this.state.reduce){ this.setState({ m6: Object.assign(base,{ postShown:99, eodShown:99 }) }); return; }
+    this.setState({ m6: base });
+    const nP=M.posts.length, nE=M.eod.length;
+    const eod=(k)=>{ this.patchM6({ eodShown:k }); if(k<nE) this.mt('m6',()=>eod(k+1),160); };
+    const post=(k)=>{ this.patchM6({ postShown:k }); if(k<nP) this.mt('m6',()=>post(k+1),420); else this.mt('m6',()=>eod(1),600); };
+    this.mt('m6',()=>post(1),300);
+  }
+  m6Act(i,what){
+    this._modFlags.interacted.m6=true; this.clearMod('m6');
+    const acted=Object.assign({},this.state.m6.acted); acted[i]=what;
+    this.patchM6({ acted:acted, postShown:Math.max(this.state.m6.postShown,(this.D.m6||{posts:[]}).posts.length), eodShown:Math.max(this.state.m6.eodShown,(this.D.m6||{eod:[]}).eod.length) });
+  }
+  m6View(){
+    const h=this.h, s=this.state.m6, M=this.D.m6||{posts:[],eod:[]}, C=this.CM, phone=this.state.phone;
+    const posts=(M.posts||[]).map((po,i)=>{
+      const shown=i<s.postShown||s.postShown>=99;
+      const acted=s.acted[i];
+      return h('div',{key:i,style:Object.assign({padding:'13px 15px',borderTop:i===0?'none':'1px solid #ECEFEC'},this.rvSty(shown))},
+        h('div',{style:{display:'flex',gap:10,alignItems:'baseline',marginBottom:6}},
+          h('span',{style:this.monoSty({fontSize:11.5,fontWeight:600,color:'#1A8F57'})},po.agent),
+          h('span',{style:this.monoSty({fontSize:10,color:'#9AA8A0'})},po.time)),
+        h('div',{style:{fontSize:13.5,lineHeight:1.55,color:'#16242E'}},po.text),
+        h('div',{style:{fontSize:13.5,lineHeight:1.5,color:'#16242E',fontWeight:600,marginTop:6}},po.suggest),
+        acted
+          ? h('div',{style:this.monoSty({marginTop:10,fontSize:11.5,color:acted==='did'?'#1A8F57':'#9AA8A0'})},(acted==='did'?'✓ ':'– ')+(acted==='did'?po.did:po.ignored))
+          : h('div',{style:{display:'flex',gap:9,marginTop:10}},
+              this.btn(C.doIt,()=>this.m6Act(i,'did'),'primary','d'+i),
+              this.btn(C.ignore,()=>this.m6Act(i,'ign'),'ghost','g'+i)));
+    });
+    const eod=h('div',{key:'eod',style:{flex:phone?'1 1 auto':'1 1 260px',minWidth:phone?0:240}},
+      h('div',{style:{background:'#fff',border:'1px solid #DCE1DC',borderRadius:12,overflow:'hidden'}},
+        h('div',{style:this.monoSty({fontSize:11.5,fontWeight:600,color:'#16242E',padding:'11px 15px',borderBottom:'1px solid #ECEFEC',background:'#F4F5F2'})},M.eodHead),
+        (M.eod||[]).map((line,i)=>h('div',{key:i,style:Object.assign(this.monoSty({fontSize:11.5,lineHeight:1.5,color:'#5C6B72',padding:'9px 15px',borderTop:i===0?'none':'1px solid #ECEFEC'}),this.rvSty(i<s.eodShown||s.eodShown>=99))},line))),
+      h('p',{style:{margin:'14px 2px 0',fontSize:13,lineHeight:1.55,color:'#5C6B72'}},M.caption));
+    return h('div',{'aria-live':'polite',style:{display:'flex',flexDirection:phone?'column':'row',flexWrap:phone?'nowrap':'wrap',gap:18,alignItems:phone?'stretch':'flex-start'}},
+      h('div',{key:'al',style:{flex:phone?'1 1 auto':'1.5 1 360px',minWidth:phone?0:320,background:'#fff',border:'1px solid #DCE1DC',borderRadius:12,overflow:'hidden'}},
+        h('div',{style:this.monoSty({fontSize:11.5,fontWeight:600,color:'#16242E',padding:'11px 15px',borderBottom:'1px solid #ECEFEC',background:'#F4F5F2'})},M.alertsHead),
+        posts),
+      eod);
   }
 
   buildRows(a, revealed, reduce, highlightState){
